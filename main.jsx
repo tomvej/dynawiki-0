@@ -11,11 +11,10 @@ var Section = React.createClass({
             }
         });
     },
-
     render: function() {
         return (
             <section>
-                <Header />
+                <Header title={this.props.data.heading}/>
                 {this.contents()}
             </section>
         );

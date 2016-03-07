@@ -1,7 +1,28 @@
 import React from 'react';
+import { Editor } from './editor.jsx';
+import { Paragraph } from './paragraph.jsx';
+import { Header } from './header.jsx';
 
-export default class Section extends React.Component {
+export class Section extends React.Component {
+    contents() {
+        return this.props.data.contents.map(elem => {
+            switch (elem.type) {
+                case 'editor':
+                    return <Editor key="editor" data={elem}/>;
+                case 'paragraph':
+                    return <Paragraph key={elem.id} data={elem}/>;
+                case 'section':
+                    return <Section key={elem.id} data={elem}/>;
+            }
+        });
+    }
+
     render() {
-        return <h1>New Page</h1>;
+        return (
+            <section>
+                <Header title={this.props.data.heading} />
+                {this.contents()}
+            </section>
+        );
     }
 }

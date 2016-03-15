@@ -32,12 +32,12 @@ export class Editor extends React.Component {
         }
 
         if (text.startsWith('=')) {
-            return this.props.insertSection(text.slice(1).trim(), 1);
+            return this.props.insertSection(text.slice(1).trim(), 0);
         } else if (text.startsWith('<')) {
             var length = text.match( /^<*/)[0].length;
-            return this.props.insertSection(text.slice(length).trim(), -length);
+            return this.props.insertSection(text.slice(length).trim(), length+1);
         } else {
-            return this.props.insertSection(text.trim(), 0);
+            return this.props.insertSection(text.trim(), 1);
         }
     }
 

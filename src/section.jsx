@@ -28,7 +28,24 @@ export class Section extends React.Component {
     }
 
     insertSection(text, level) {
-        //TODO implement insert section
+        var editorIndex = this.state.contents.findIndex(e => e.type === 'editor');
+        var beforeContents = this.state.contents.slice(0, editorIndex);
+        var afterContents = this.state.contents.slice(editorIndex + 1);
+
+        var section = {
+            id: this.props.getId(),
+            type: 'section',
+            heading: text,
+            contents: [{ type: 'editor' }].concat(afterContents)
+        };
+
+        if (level === 0) {
+            this.setState({contents: beforeContents.concat(section)});
+        } else {
+            alert('Sections of this level are not supported yet.');//TODO
+            return false;
+        }
+        return true;
     }
 
     renderContent(element) {

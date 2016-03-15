@@ -5,6 +5,11 @@ import { Header } from './header.jsx';
 
 export class Section extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = props.data;
+    }
+
     renderContent(element) {
         switch (element.type) {
             case 'editor':return <Editor key="editor" data={element} />;
@@ -17,8 +22,8 @@ export class Section extends React.Component {
     render() {
         return (
             <section>
-                <Header title={this.props.data.heading} />
-                {this.props.data.contents.map(this.renderContent)}
+                <Header title={this.state.heading} />
+                {this.state.contents.map(this.renderContent)}
             </section>
         );
     }

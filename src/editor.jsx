@@ -8,6 +8,6 @@ export class Editor extends React.Component {
     }
 
     render() {
-        return <textarea onChange={this.handleChange.bind(this)}></textarea>;
+        return <textarea rows="10" onChange={this.handleChange.bind(this)}></textarea>;
     }
 }

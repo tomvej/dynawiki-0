@@ -9,3 +9,8 @@ body {
     padding: 40px;
     background-color: white;
 }
+
+textarea {
+    width: 100%;
+    resize: vertical;
+}

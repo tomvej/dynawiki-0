@@ -10,9 +10,13 @@ export class Section extends React.Component {
         this.state = props.data;
     }
 
+    appendContent(element) {
+        console.log(element);
+    }
+
     renderContent(element) {
         switch (element.type) {
-            case 'editor':return <Editor key="editor" data={element} />;
+            case 'editor': return <Editor key="editor" data={element} appendElement={this.appendContent} />;
             case 'paragraph': return <Paragraph key={element.id} data={element} />;
             case 'section': return <Section key={element.id} data={element} getId={this.props.getId} />;
             default: console.warn('Unknown content type: ' + element.type)
@@ -23,7 +27,7 @@ export class Section extends React.Component {
         return (
             <section>
                 <Header title={this.state.heading} />
-                {this.state.contents.map(this.renderContent)}
+                {this.state.contents.map(this.renderContent.bind(this))}
             </section>
         );
     }

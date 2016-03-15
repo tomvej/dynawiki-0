@@ -12,6 +12,10 @@ export class Page extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props !== nextProps;
+    }
+
     getId() {
         var id = this.state.id;
         this.setState({id: id + 1});

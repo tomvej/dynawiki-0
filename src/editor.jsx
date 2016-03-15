@@ -12,10 +12,7 @@ export class Editor extends React.Component {
     handleChange(event) {
         var value = event.target.value;
         if (value.endsWith('\n\n')) {
-            this.props.appendContent({
-                type: 'paragraph',
-                text: value.slice(0, -2)
-            });
+            this.props.insertParagraph(value.slice(0, -2));
             this.setState({value: ''});
         } else {
             this.setState({value: value});

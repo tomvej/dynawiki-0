@@ -10,14 +10,17 @@ export class Section extends React.Component {
         this.state = props.data;
     }
 
-    appendContent(element) {
-        var id = this.props.getId();
-        Object.assign(element, {id: id});
+    insertParagraph(text) {
+        var paragraph = {
+            id: this.props.getId(),
+            type: 'paragraph',
+            text: text
+        };
 
         var contents = [];
         this.state.contents.forEach(e => {
             if (e.type === 'editor') {
-                contents.push(element);
+                contents.push(paragraph);
             }
             contents.push(e);
         });
@@ -26,7 +29,7 @@ export class Section extends React.Component {
 
     renderContent(element) {
         switch (element.type) {
-            case 'editor': return <Editor key="editor" data={element} appendContent={this.appendContent.bind(this)} />;
+            case 'editor': return <Editor key="editor" data={element} insertParagraph={this.insertParagraph.bind(this)} />;
             case 'paragraph': return <Paragraph key={element.id} data={element} />;
             case 'section': return <Section key={element.id} data={element} getId={this.props.getId} />;
             default: console.warn('Unknown content type: ' + element.type)

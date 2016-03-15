@@ -27,8 +27,7 @@ export class Page extends React.Component {
     }
 
     getId() {
-        this.id++;
-        return this.id - 1;
+        return this.id++;
     }
 
     render() {

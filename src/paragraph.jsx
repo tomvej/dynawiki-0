@@ -2,6 +2,6 @@ import React from 'react';
 
 export class Paragraph extends React.Component {
     render() {
-        return <p></p>;
+        return <p>{this.props.data.text}</p>;
     }
 }

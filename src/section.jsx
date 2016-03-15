@@ -11,7 +11,17 @@ export class Section extends React.Component {
     }
 
     appendContent(element) {
-        console.log(element);
+        var id = this.props.getId();
+        Object.assign(element, {id: id});
+
+        var contents = [];
+        this.state.contents.forEach(e => {
+            if (e.type === 'editor') {
+                contents.push(element);
+            }
+            contents.push(e);
+        });
+        this.setState({contents: contents});
     }
 
     renderContent(element) {

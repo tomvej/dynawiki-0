@@ -26,15 +26,19 @@ export class Editor extends React.Component {
     }
 
     insertSection(text) {
-        if (!text.match(/^(>*|<*)\s+/)) {
-            alert('Wrong section format:\n=' + text + '\nMust be \'= Heading\', \'=>... Heading\' or \'=<... Heading\'.');
+        if (!text.match(/^(<*|=)/)) {
+            alert('Wrong section format:\n=' + text + '\nMust be \'= Heading\', \'== Heading\' or \'=<... Heading\'.');
             return false;
         }
-        var length = text.match(/^(>*|<*)/)[0].length;
-        if (text.startsWith('<')) {
-            length = -length;
+
+        if (text.startsWith('=')) {
+            return this.props.insertSection(text.slice(1).trim(), 1);
+        } else if (text.startsWith('<')) {
+            var length = text.match( /^<*/)[0].length;
+            return this.props.insertSection(text.slice(length).trim(), -length);
+        } else {
+            return this.props.insertSection(text.trim(), 0);
         }
-        return this.props.insertSection(text.slice(length).trim(), length);
     }
 
     render() {

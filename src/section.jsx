@@ -27,9 +27,15 @@ export class Section extends React.Component {
         this.setState({contents: contents});
     }
 
+    insertSection(text, level) {
+        //TODO implement insert section
+    }
+
     renderContent(element) {
         switch (element.type) {
-            case 'editor': return <Editor key="editor" data={element} insertParagraph={this.insertParagraph.bind(this)} />;
+            case 'editor': return <Editor key="editor" data={element}
+                                          insertParagraph={this.insertParagraph.bind(this)}
+                                          insertSection={this.insertSection.bind(this)} />;
             case 'paragraph': return <Paragraph key={element.id} data={element} />;
             case 'section': return <Section key={element.id} data={element} getId={this.props.getId} />;
             default: console.warn('Unknown content type: ' + element.type)

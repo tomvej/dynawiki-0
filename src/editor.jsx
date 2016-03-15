@@ -11,12 +11,30 @@ export class Editor extends React.Component {
 
     handleChange(event) {
         var value = event.target.value;
-        if (value.endsWith('\n\n')) {
+        if (value.startsWith('=') && value.endsWith('\n')) {
+            if (this.insertSection(value.slice(1, -1))) {
+                this.setState({value: ''});
+            } else {
+                this.setState({value: value.slice(0, -1)});
+            }
+        } else if (value.endsWith('\n\n')) {
             this.props.insertParagraph(value.slice(0, -2));
             this.setState({value: ''});
         } else {
             this.setState({value: value});
         }
+    }
+
+    insertSection(text) {
+        if (!text.match(/^(>*|<*)\s+/)) {
+            alert('Wrong section format:\n=' + text + '\nMust be \'= Heading\', \'=>... Heading\' or \'=<... Heading\'.');
+            return false;
+        }
+        var length = text.match(/^(>*|<*)/)[0].length;
+        if (text.startsWith('<')) {
+            length = -length;
+        }
+        return this.props.insertSection(text.slice(length).trim(), length);
     }
 
     render() {

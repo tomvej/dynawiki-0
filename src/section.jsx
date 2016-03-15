@@ -14,7 +14,7 @@ export class Section extends React.Component {
         switch (element.type) {
             case 'editor':return <Editor key="editor" data={element} />;
             case 'paragraph': return <Paragraph key={element.id} data={element} />;
-            case 'section': return <Section key={element.id} data={element} />;
+            case 'section': return <Section key={element.id} data={element} getId={this.props.getId} />;
             default: console.warn('Unknown content type: ' + element.type)
         }
     }

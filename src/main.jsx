@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Page } from './page.jsx';
 
 var data = {
-    heading: "New Page!",
+    type: 'section',
+    heading: 'New Page!',
     contents: [
         {
             type: 'editor'

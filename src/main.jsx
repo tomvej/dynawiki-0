@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Section } from './section.jsx';
+import { Page } from './page.jsx';
 
 var data = {
     heading: "New Page!",
@@ -11,4 +11,4 @@ var data = {
     ]
 };
 
-ReactDOM.render(<Section data={data}/>, document.getElementById('content'));
+ReactDOM.render(<Page data={data}/>, document.getElementById('content'));

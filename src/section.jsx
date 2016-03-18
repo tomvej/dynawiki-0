@@ -41,20 +41,7 @@ export class Section extends React.Component {
             contents: afterPars
         };
 
-        if (level === 0) {
-            this.setState({contents: beforeContents.concat(section, afterSections)});
-            return true;
-        } else if (this.props.insertChildSection !== undefined) {
-            if (this.props.insertChildSection(this.state.id, [section].concat(afterSections), level - 1)) {
-                this.setState({contents: beforeContents});
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            alert('You cannot insert a H1 or higher.');
-            return false;
-        }
+        return this.insertSectionOrMoveItUp([section], beforeContents, afterSections, level);
     }
 
     insertChildSection(sourceId, children, level) {
@@ -62,18 +49,20 @@ export class Section extends React.Component {
         var beforeContents = this.state.contents.slice(0, sectionIndex + 1);
         var afterContents = this.state.contents.slice(sectionIndex + 1);
 
+        return this.insertSectionOrMoveItUp(children, beforeContents, afterContents, level);
+    }
+
+    insertSectionOrMoveItUp(children, before, after, level) {
         if (level === 0) {
-            this.setState({contents: beforeContents.concat(children, afterContents)});
+            this.setState({contents: before.concat(children, after)});
             return true;
-        } else if (this.props.insertChildSection !== undefined){
-            if (this.props.insertChildSection(this.state.id, children.concat(afterContents), level - 1)) {
-                this.setState({contents: beforeContents});
-                return true;
-            } else {
-                return false;
-            }
-        } else {
+        } else if (this.props.insertChildSection === undefined) {
             alert('You cannot insert a H1 or higher.');
+            return false;
+        } else if (this.props.insertChildSection(this.state.id, children.concat(after), level - 1)) {
+            this.setState({contents: before});
+            return true;
+        } else {
             return false;
         }
     }

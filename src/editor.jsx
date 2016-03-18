@@ -42,7 +42,7 @@ export class Editor extends React.Component {
     }
 
     render() {
-        return <textarea rows="10"
+        return <textarea rows="10" autoFocus
                          onChange={this.handleChange.bind(this)}
                          value={this.state.value} />
     }

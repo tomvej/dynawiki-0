@@ -42,7 +42,7 @@ export class Section extends React.Component {
         };
 
         if (level === 0) {
-            this.setState({contents: beforeContents.concat(section)});
+            this.setState({contents: beforeContents.concat(section, afterSections)});
             return true;
         } else if (this.props.insertChildSection !== undefined) {
             if (this.props.insertChildSection(this.state.id, [section].concat(afterSections), level - 1)) {

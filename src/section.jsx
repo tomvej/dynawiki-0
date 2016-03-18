@@ -30,13 +30,13 @@ export class Section extends React.Component {
     insertSection(text, level) {
         var editorIndex = this.state.contents.findIndex(e => e.type === 'editor');
         var beforeContents = this.state.contents.slice(0, editorIndex);
-        var afterContents = this.state.contents.slice(editorIndex + 1);
+        var afterContents = this.state.contents.slice(editorIndex);
 
         var section = {
             id: this.props.getId(),
             type: 'section',
             heading: text,
-            contents: [{ type: 'editor' }].concat(afterContents)
+            contents: afterContents
         };
 
         if (level === 0) {

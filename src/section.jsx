@@ -67,11 +67,16 @@ export class Section extends React.Component {
         }
     }
 
+    deleteEditor() {
+        this.setState({contents: this.state.contents.filter(e => e.type !== 'editor')});
+    }
+
     renderContent(element) {
         switch (element.type) {
             case 'editor': return <Editor key="editor" data={element}
                                           insertParagraph={this.insertParagraph.bind(this)}
-                                          insertSection={this.insertSection.bind(this)} />;
+                                          insertSection={this.insertSection.bind(this)}
+                                          deleteEditor={this.deleteEditor.bind(this)} />;
             case 'paragraph': return <Paragraph key={element.id} data={element} />;
             case 'section': return <Section key={element.id} data={element}
                                             getId={this.props.getId}

@@ -41,9 +41,18 @@ export class Editor extends React.Component {
         }
     }
 
+    handleKeyDown(event) {
+        switch (event.which) {
+            case 27: //ESCAPE
+                this.props.deleteEditor();
+                break;
+        }
+    }
+
     render() {
         return <textarea rows="10" autoFocus
                          onChange={this.handleChange.bind(this)}
+                         onKeyDown={this.handleKeyDown.bind(this)}
                          value={this.state.value} />
     }
 }

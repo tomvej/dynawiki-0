@@ -1,7 +1,7 @@
 import React from 'react';
-import { Editor } from './editor.jsx';
-import { Paragraph } from './paragraph.jsx';
-import { Header } from './header.jsx';
+import { Editor } from './editor';
+import { Paragraph } from './paragraph';
+import { Header } from './header';
 
 export class Section extends React.Component {
 

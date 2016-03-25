@@ -1,5 +1,5 @@
 import React from 'react';
-import { Section } from './section.jsx';
+import { Section } from './section.js';
 
 function hasEditor(data) {
     if (data.type === 'editor') {

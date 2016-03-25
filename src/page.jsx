@@ -1,14 +1,28 @@
 import React from 'react';
 import { Section } from './section.jsx';
 
+function hasEditor(data) {
+    if (data.type === 'editor') {
+        return true;
+    } else if (data.contents !== undefined) {
+        return data.contents.some(hasEditor);
+    } else {
+        return false;
+    }
+}
+
 export class Page extends React.Component {
+
 
     constructor(props) {
         super(props);
         var assigned = new IdAssigner(props.data);
+        var selection = hasEditor(props.data) ? 'editor' : null;
+
         this.state = {
             id: assigned.getSize(),
-            data: assigned.getData()
+            data: assigned.getData(),
+            selection: selection
         }
     }
 

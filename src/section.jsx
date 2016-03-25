@@ -7,7 +7,10 @@ export class Section extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = props.data;
+        this.state = {
+            heading: props.data.heading,
+            contents: props.data.contents
+        };
     }
 
     insertParagraph(text) {
@@ -59,7 +62,7 @@ export class Section extends React.Component {
         } else if (this.props.insertChildSection === undefined) {
             alert('You cannot insert a H1 or higher.');
             return false;
-        } else if (this.props.insertChildSection(this.state.id, children.concat(after), level - 1)) {
+        } else if (this.props.insertChildSection(this.props.data.id, children.concat(after), level - 1)) {
             this.setState({contents: before});
             return true;
         } else {

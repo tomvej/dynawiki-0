@@ -102,7 +102,7 @@ export class Section extends React.Component {
 
     render() {
         return (
-            <section onClick={this.select.bind(this)}>
+            <section onClick={this.select.bind(this)} data-selected={this.isSelected()}>
                 <Header title={this.state.heading} />
                 {this.state.contents.map(this.renderContent.bind(this))}
             </section>

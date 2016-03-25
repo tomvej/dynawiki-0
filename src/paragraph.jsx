@@ -11,6 +11,6 @@ export class Paragraph extends React.Component {
     }
 
     render() {
-        return <p onClick={this.select.bind(this)}>{this.props.data.text}</p>;
+        return <p onClick={this.select.bind(this)} data-selected={this.isSelected()}>{this.props.data.text}</p>;
     }
 }

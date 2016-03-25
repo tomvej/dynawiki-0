@@ -72,11 +72,16 @@ export class Section extends React.Component {
 
     deleteEditor() {
         this.setState({contents: this.state.contents.filter(e => e.type !== 'editor')});
+        this.props.setSelected(null);
     }
 
     select(event) {
         this.props.setSelected(this.props.data.id);
         event.stopPropagation();
+    }
+
+    isSelected() {
+        return this.props.data.id === this.props.selection;
     }
 
     renderContent(element) {
@@ -86,9 +91,9 @@ export class Section extends React.Component {
                                           insertSection={this.insertSection.bind(this)}
                                           deleteEditor={this.deleteEditor.bind(this)} />;
             case 'paragraph': return <Paragraph key={element.id} data={element}
-                                                setSelected={this.props.setSelected} />;
+                                                selection={this.props.selection} setSelected={this.props.setSelected} />;
             case 'section': return <Section key={element.id} data={element}
-                                            setSelected={this.props.setSelected}
+                                            selection={this.props.selection} setSelected={this.props.setSelected}
                                             getId={this.props.getId}
                                             insertChildSection={this.insertChildSection.bind(this)} />;
             default: console.warn('Unknown content type: ' + element.type)

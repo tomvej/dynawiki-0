@@ -6,6 +6,10 @@ export class Paragraph extends React.Component {
         event.stopPropagation();
     }
 
+    isSelected() {
+        return this.props.data.id === this.props.selection;
+    }
+
     render() {
         return <p onClick={this.select.bind(this)}>{this.props.data.text}</p>;
     }

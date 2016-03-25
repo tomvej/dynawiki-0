@@ -27,7 +27,8 @@ export class Page extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.props !== nextProps;
+        return this.props !== nextProps
+            || this.state.selection !== nextState.selection;
     }
 
     getId() {
@@ -37,13 +38,15 @@ export class Page extends React.Component {
     }
 
     setSelected(id) {
-        console.log('Selection changed to ' + id);
+        if (this.state.selection !== 'editor' || id === null) {
+            this.setState({selection: id});
+        }
     }
 
     render() {
         return <Section data={this.state.data}
                         getId={this.getId.bind(this)}
-                        setSelected={this.setSelected.bind(this)}/>;
+                        selection={this.state.selection} setSelected={this.setSelected.bind(this)}/>;
     }
 }
 

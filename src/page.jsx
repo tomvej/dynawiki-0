@@ -22,8 +22,14 @@ export class Page extends React.Component {
         return id;
     }
 
+    setSelected(id) {
+        console.log('Selection changed to ' + id);
+    }
+
     render() {
-        return <Section data={this.state.data} getId={this.getId.bind(this)}/>;
+        return <Section data={this.state.data}
+                        getId={this.getId.bind(this)}
+                        setSelected={this.setSelected.bind(this)}/>;
     }
 }
 

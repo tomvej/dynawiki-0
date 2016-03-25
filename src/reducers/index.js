@@ -1,3 +1,1 @@
-import initial from '../initial';
-
-export default (state = initial, action) => (state);
+export default (state, action) => (state);

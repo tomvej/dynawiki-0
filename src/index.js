@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import initial from './initial';
 import wikiApp from './reducers';
-import Page from './containers/Page';
+import Section from './containers/Section';
 
 render(
     <Provider store={createStore(wikiApp, initial)}>
-        <Page />
+        <Section id="0" />
     </Provider>,
     document.getElementById('content')
 );

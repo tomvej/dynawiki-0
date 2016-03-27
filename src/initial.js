@@ -3,9 +3,7 @@ export default {
         0 : {
             id : 0,
             heading : 'New Page',
-            contents : [{
-                type : 'editor'
-            }],
+            contents : [],
             children: []
         }
     }

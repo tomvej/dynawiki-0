@@ -8,7 +8,7 @@ import Section from './containers/Section';
 
 render(
     <Provider store={createStore(wikiApp, initial)}>
-        <Section id="0" />
+        <Section id={0} />
     </Provider>,
     document.getElementById('content')
 );

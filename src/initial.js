@@ -6,5 +6,9 @@ export default {
             contents : [],
             children: []
         }
+    },
+    editor : {
+        section: 0,
+        index: 0
     }
 };

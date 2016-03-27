@@ -5,12 +5,15 @@ const mapStateToProps = (state, ownProps) => ({
     section: state.sections[ownProps.id]
 });
 
-const Section = ({section}) => 
-    (<section id={section.id}>
+const Section = ({section}) =>
+    (<section>
         <h1>{section.heading}</h1>
+        {section.children.map(id => <SectionContainer key={id} id={id}/>)}
     </section>)
 
-export default connect(
+const SectionContainer = connect(
     mapStateToProps,
     dispatch => ({})
-)(Section)
+)(Section);
+
+export default SectionContainer;

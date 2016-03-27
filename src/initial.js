@@ -5,7 +5,8 @@ export default {
             heading : 'New Page',
             contents : [{
                 type : 'editor'
-            }]
+            }],
+            children: []
         }
     }
 };

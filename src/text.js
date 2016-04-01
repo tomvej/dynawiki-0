@@ -2,6 +2,7 @@ export default {
     sections : {
         0 : {
             id : 0,
+            parent : null,
             heading : 'Bývalí Hunteři',
             contents : [
                 {id : 6, text : 'Skupina hunterů ze Sunny Beach, která se už rozpadla. Konkrétně se rozpadla kvůli smrti dvou členů při honu na "upíra".'},
@@ -11,6 +12,7 @@ export default {
         },
         1 : {
             id : 1,
+            parent : 0,
             heading : 'Zelený Mozek',
             contents : [
                 {id : 8, text : 'aka Bill z L4D — bývalý voják, byl v Zálivu a v Bosně. Mírné psychologické trauma — v obou válkách hájil nějaké abstraktní zájmy, nebránil lidi.'},
@@ -22,12 +24,14 @@ export default {
         },
         2 : {
             id : 2,
+            parent : 0,
             heading : "Ostatní",
             contents : [{id : 12, text : 'Původně jich bylo pět, dva to dostali při honu na upíra, jednoho později zabil Sam.'}],
             children : [4, 5]
         },
         3 : {
             id : 3,
+            parent : 0,
             heading : "Historie",
             contents : [
                 {id : 13, text : 'Po "neúspěšném" posledním huntu se skupina rozpadla. Peterson se ostatích výrazně stranil a nakonec se z něj stal slasher. Musel ho zabít Sam.'},
@@ -37,12 +41,14 @@ export default {
         },
         4 : {
             id : 4,
+            parent : 2,
             heading : "H. Robb",
             contents : [{id : 15, text : 'žije dodnes, nechce o vigilu mluvit, dělá vrátného'}],
             children : []
         },
         5 : {
             id : 5,
+            parent : 2,
             heading : "Peterson",
             contents : [{id : 16, text : 'vedl si deník, takový vědecký typ, stal se z něj slasher, mrtvý'}],
             children : []

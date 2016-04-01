@@ -22,3 +22,7 @@ textarea {
     border-color: #AAAAAA;
     background-color: #FAFAFA;
 }
+
+section {
+    padding-left: 10px;
+}

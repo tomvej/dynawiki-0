@@ -47,7 +47,7 @@ export default {
             contents : [{id : 16, text : 'vedl si deník, takový vědecký typ, stal se z něj slasher, mrtvý'}],
             children : []
         }
-    }
-    ,
-    editor : null
+    },
+    editor : null,
+    nextId: 17
 }

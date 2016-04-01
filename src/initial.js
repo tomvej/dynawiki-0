@@ -10,5 +10,6 @@ export default {
     editor : {
         section: 0,
         index: 0
-    }
+    },
+    nextId: 1
 };

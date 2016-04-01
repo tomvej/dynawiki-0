@@ -29,7 +29,7 @@ export default (text) => {
         if (text.match(/^==/)) {
             level = 0;
         } else if (text.match(/^=<+/)) {
-            level = text.match(/^=<*/).length
+            level = text.match(/^=<+/)[0].length;
         } else {
             level = 1;
         }

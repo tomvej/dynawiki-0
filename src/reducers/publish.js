@@ -10,8 +10,6 @@ export default (state, payload) => {
     let section = state.editor.section;
     let index = state.editor.index;
 
-    //TODO implement forget orphaned paragraphs
-
     let pushParagraph = text => {
         let paragraph = {
             id: id++,
@@ -51,7 +49,10 @@ export default (state, payload) => {
     payload.forEach(element => {
         switch (element.type) {
             case 'section':
+                let orphans = state.sections[section].contents.slice(index);
+                updateState({sections: {[section]: {contents: {$splice: [[index, orphans.length]]}}}});
                 pushSection(element.heading, element.level);
+                updateState({sections: {[section]: {contents: {$push: orphans}}}});
                 break;
             case 'paragraph':
                 pushParagraph(element.text);

@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import Editor from './Editor'
 
 const mapStateToProps = (state, ownProps) => ({
-        section: state.sections[ownProps.id],
-        editor: (state.editor !== null && state.editor.section === ownProps.id) ? state.editor.index : null,
-        selection: state.selection
-    });
+    section: state.sections[ownProps.id],
+    editor: (state.editor !== null && state.editor.section === ownProps.id) ? state.editor.index : null,
+    selection: state.selection
+});
 
 const Section = ({section, editor, selection}) => {
     let pars = section.contents.map(({id, text}) => <p key={id} data-selected={id === selection}>{text}</p>);

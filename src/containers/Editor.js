@@ -13,23 +13,37 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-const Editor = ({publish, publishAndClose}) => {
-    let change = event => {
+// NOTE: Editor is a pure react (non-redux) component which uses local state to clear itself.
+class Editor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {value: ''};
+        this.change = this.change.bind(this);
+        this.keyDown = this.keyDown.bind(this);
+    }
+
+    change(event) {
         if (event.target.value.endsWith('\n\n')) {
-            publish(event.target.value);
+            this.props.publish(event.target.value);
+            this.setState({value: ''});
+        } else {
+            this.setState({value: event.target.value});
         }
-    };
-    let keyDown = event => {
+    }
+
+    keyDown(event) {
         if (event.which === 27) {
-            publishAndClose(event.target.value);
+            this.props.publishAndClose(event.target.value);
         }
-    };
-    return (
-        <textarea rows="10" autoFocus
-                  onChange={change}
-                  onKeyDown={keyDown} />
-    );
-};
+    }
+
+    render() {
+        return <textarea rows="10" autoFocus
+                         value={this.state.value}
+                         onChange={this.change}
+                         onKeyDown={this.keyDown}/>;
+    }
+}
 
 export default connect(
     () => ({}),

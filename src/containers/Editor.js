@@ -2,6 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { publish, closeEditor } from '../actions'
 
+const mapStateToProps = (state) => ({
+    text: state.editor.text
+});
+
 const mapDispatchToProps = (dispatch) => ({
     publish: text => dispatch(publish(text)),
     publishAndClose: text => {
@@ -17,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
 class Editor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+        this.state = {value: props.text};
         this.change = this.change.bind(this);
         this.keyDown = this.keyDown.bind(this);
     }
@@ -46,6 +50,6 @@ class Editor extends React.Component {
 }
 
 export default connect(
-    () => ({}),
+    mapStateToProps,
     mapDispatchToProps
 )(Editor);

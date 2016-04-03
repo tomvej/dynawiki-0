@@ -10,8 +10,10 @@ export default (state, payload) => {
     }
     let section = state.selection.section;
     let index = state.selection.index;
+    let text = '';
 
     if (index !== null) {
+        text = state.sections[section].contents[index].text;
         updateState({sections: {[section]: {contents: {$splice: [[index, 1]]}}}});
     } else {
         index = 0;
@@ -25,7 +27,8 @@ export default (state, payload) => {
         selection: {$set: null},
         editor: {$set: {
             section: section,
-            index: index
+            index: index,
+            text: text
         }}
     });
 

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Editor from './Editor'
+import NodeMenu from './NodeMenu'
 import { changeSelection } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -16,15 +17,11 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-const Menu = () => (
-    <a id="menu" href="" onClick={e => {e.preventDefault();}}>Edit</a>
-);
-
 const Paragraph = (id, selection, changeSelection, text) => (
     <p key={id}
        data-selected={id === selection}
        onClick={changeSelection(id)}>
-        {id === selection ? <Menu /> : null}
+        {id === selection ? <NodeMenu /> : null}
         {text}
     </p>
 );
@@ -36,7 +33,7 @@ const Section = ({section, editor, selection, changeSelection}) => {
     }
     return (
         <section data-selected={section.id === selection} onClick={changeSelection(section.id)}>
-            <header><h1>{section.heading}</h1>{section.id === selection ? <Menu/> : null}</header>
+            <header><h1>{section.heading}</h1>{section.id === selection ? <NodeMenu/> : null}</header>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}
         </section>

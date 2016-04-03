@@ -16,10 +16,16 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
+const Paragraph = (id, selection, changeSelection, text) => (
+    <p key={id}
+       data-selected={id === selection}
+       onClick={changeSelection(id)}>
+        {text}
+    </p>
+);
+
 const Section = ({section, editor, selection, changeSelection}) => {
-    let pars = section.contents.map(({id, text}) =>
-        <p key={id} data-selected={id === selection} onClick={changeSelection(id)}>{text}</p>
-    );
+    let pars = section.contents.map(({id, text}) => Paragraph(id, selection, changeSelection, text));
     if (editor !== null) {
         pars.splice(editor, 0, <Editor key="editor"/>);
     }

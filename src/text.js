@@ -55,5 +55,6 @@ export default {
         }
     },
     editor : null,
-    nextId: 17
+    nextId: 17,
+    selection: null
 }

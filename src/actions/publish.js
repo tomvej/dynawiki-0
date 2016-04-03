@@ -4,6 +4,8 @@ export default (text) => {
     let buffer = [];
     let result = [];
     let errors = [];
+    let lastLevel = 0;
+
     function pushParagraph() {
         if (buffer.length > 0) {
             result.push({
@@ -15,29 +17,35 @@ export default (text) => {
     }
     function pushSection(text) {
         if (!text.match(/^=(=|<*)/)) {
-            errors.push('Wrong heading format:\n' + text + '\nMust be "= Heading", "== Heading" or "=<... Heading"');
+            errors.push('Wrong heading format:\n' + text + '\nMust be "=... Heading" or "=<... Heading"');
             return;
         }
 
-        let heading = text.replace(/^==|^=<*/, '').trim();
+        let heading = text.replace(/^==+|^=<*/, '').trim();
         if (heading.length == 0) {
             errors.push('Empty heading: ' + text);
             return;
         }
 
         let level;
-        if (text.match(/^==/)) {
-            level = 0;
+        if (text.match(/^==+/)) {
+            level = 2 - text.match(/^==+/)[0].length;
         } else if (text.match(/^=<+/)) {
             level = text.match(/^=<+/)[0].length;
         } else {
             level = 1;
+        }
+
+        if (lastLevel - level > 1) {
+            errors.push('You cannot go from Hn to H(n+2) directly:\n' + text);
+            return;
         }
         result.push({
             type: 'section',
             heading: heading,
             level: level
         });
+        lastLevel = level;
     }
 
     text.split('\n').forEach(line => {

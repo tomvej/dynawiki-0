@@ -8,6 +8,7 @@ export default (state, payload) => {
     let id = state.nextId;
     let sectionId = state.editor.section;
     let index = state.editor.index;
+    let currentLevel = 0;
 
     let updateContents = command => {
         updateState({sections: {[sectionId]: {contents: command}}});
@@ -43,9 +44,11 @@ export default (state, payload) => {
             }});
             sectionId = newId;
             index = 0;
+            currentLevel++;
         } else if (section().parent !== null) {
             sourceIndex = state.sections[section().parent].children.indexOf(sectionId) + 1;
             sectionId = section().parent;
+            currentLevel--;
             pushSection(heading, level -1, sourceIndex, children.concat(after));
         } else {
             console.error('Trying to add another H1. Ignoring.'); //TODO move to validation
@@ -57,7 +60,7 @@ export default (state, payload) => {
             case 'section':
                 let orphans = section().contents.slice(index);
                 updateContents({$splice: [[index, orphans.length]]});
-                pushSection(element.heading, element.level);
+                pushSection(element.heading, element.level + currentLevel);
                 updateContents({$push: orphans});
                 break;
             case 'paragraph':

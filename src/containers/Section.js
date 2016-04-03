@@ -27,13 +27,14 @@ const Paragraph = (id, selection, changeSelection, text) => (
 );
 
 const Section = ({section, editor, selection, changeSelection}) => {
+    let selected = section.id === selection;
     let pars = section.contents.map(({id, text}) => Paragraph(id, selection, changeSelection, text));
     if (editor !== null) {
         pars.splice(editor, 0, <Editor key="editor"/>);
     }
     return (
-        <section data-selected={section.id === selection} onClick={changeSelection(section.id)}>
-            <header><h1>{section.heading}</h1>{section.id === selection ? <NodeMenu/> : null}</header>
+        <section data-selected={selected} onClick={changeSelection(section.id)}>
+            <header><h1>{section.heading}</h1>{selected ? <NodeMenu/> : null}</header>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}
         </section>

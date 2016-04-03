@@ -10,3 +10,7 @@ export const changeSelection = id => ({
     type: Actions.CHANGE_SELECTION,
     payload: id
 });
+
+export const startEditing = () => ({
+    type: Actions.START_EDITING
+});

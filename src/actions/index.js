@@ -6,9 +6,12 @@ export const closeEditor = () => ({
     type: Actions.CLOSE_EDITOR
 });
 
-export const changeSelection = id => ({
+export const changeSelection = (section, index) => ({
     type: Actions.CHANGE_SELECTION,
-    payload: id
+    payload: {
+        section: section,
+        index: index
+    }
 });
 
 export const startEditing = () => ({

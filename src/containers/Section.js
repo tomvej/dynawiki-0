@@ -11,29 +11,30 @@ const mapStateToProps = (state, ownProps) => ({
     selection: state.selection
 });
 const mapDispatchToProps = dispatch => ({
-    changeSelection: id => event => {
-        dispatch(changeSelection(id));
+    changeSelection: (section, index) => event => {
+        dispatch(changeSelection(section, index));
         event.stopPropagation();
     }
 });
 
-const Paragraph = (id, selection, changeSelection, text) => (
+const Paragraph = (id, selected, changeSelection, text) => (
     <p key={id}
-       data-selected={id === selection}
-       onClick={changeSelection(id)}>
-        {id === selection ? <NodeMenu /> : null}
+       data-selected={selected}
+       onClick={changeSelection}>
+        {selected ? <NodeMenu /> : null}
         {text}
     </p>
 );
 
 const Section = ({section, editor, selection, changeSelection}) => {
-    let selected = section.id === selection;
-    let pars = section.contents.map(({id, text}) => Paragraph(id, selection, changeSelection, text));
+    let selected = selection !== null && section.id === selection.section && selection.index === null;
+    let parSelected = index => (selection !== null && section.id === selection.section && index === selection.index);
+    let pars = section.contents.map(({id, text}, index) => Paragraph(id, parSelected(index), changeSelection(section.id, index), text));
     if (editor !== null) {
         pars.splice(editor, 0, <Editor key="editor"/>);
     }
     return (
-        <section data-selected={selected} onClick={changeSelection(section.id)}>
+        <section data-selected={selected} onClick={changeSelection(section.id, null)}>
             <header><h1>{section.heading}</h1>{selected ? <NodeMenu/> : null}</header>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}

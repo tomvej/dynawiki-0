@@ -16,10 +16,7 @@ textarea {
 }
 
 [data-selected="true"] {
-    border-width: 0px;
-    border-right-width: 3px;
-    border-style: solid;
-    border-color: #AAAAAA;
+    border-right: solid 3px #AAAAAA;
     background-color: #FAFAFA;
 }
 

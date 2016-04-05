@@ -4,9 +4,9 @@ import { startEditing } from '../actions'
 
 const mapDispatchToProps = dispatch => ({
     startEditing: event => {
-        dispatch(startEditing());
         event.stopPropagation();
         event.preventDefault();
+        dispatch(startEditing());
     }
 });
 

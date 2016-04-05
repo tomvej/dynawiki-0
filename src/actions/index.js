@@ -17,3 +17,7 @@ export const changeSelection = (section, index) => ({
 export const startEditing = () => ({
     type: Actions.START_EDITING
 });
+
+export const appendEditor = () => ({
+    type: Actions.APPEND_EDITOR
+});

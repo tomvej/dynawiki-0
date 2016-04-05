@@ -1,7 +1,20 @@
 import update from 'react-addons-update'
 
+const flatten = (element, array) => [].concat.apply(element, array);
+
+const exportSectionInternal = (state, section, level = 0) => (flatten(
+        section.contents.map(par => par.text),
+        section.children.map(id => state.sections[id]).map(sec => flatten(
+            ['='.repeat(level + 2) + ' ' + sec.heading],
+            exportSectionInternal(state, sec, level + 1)
+        ))
+    )
+);
+
+const exportSection = (state, id) => exportSectionInternal(state, state.sections[id]).join('\n\n');
+
 export default (state, payload) => {
-    let updateState = command => {
+    const updateState = command => {
         state = update(state, command);
     };
 
@@ -17,6 +30,7 @@ export default (state, payload) => {
         updateState({sections: {[section]: {contents: {$splice: [[index, 1]]}}}});
     } else {
         index = 0;
+        text = exportSection(state, section);
         updateState({sections: {[section]: {
             contents: {$set: []},
             children: {$set: []}

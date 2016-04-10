@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import Editor from './Editor'
 import NodeMenu from './NodeMenu'
+import Header from './Header'
 import { changeSelection } from '../actions'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -35,7 +36,7 @@ const Section = ({section, editor, selection, changeSelection}) => {
     }
     return (
         <section data-selected={selected} onClick={changeSelection(section.id, null)}>
-            <header><h1>{section.heading}</h1>{selected ? <NodeMenu/> : null}</header>
+            <Header id={section.id}/>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}
         </section>

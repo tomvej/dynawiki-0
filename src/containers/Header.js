@@ -3,15 +3,20 @@ import { connect } from 'react-redux'
 import Menu from './NodeMenu'
 
 const mapStateToProps = (state, ownProps) => ({
-    section: state.sections[ownProps.id],
-    selected: state.selection !== null && state.selection.section === ownProps.id && state.selection.index === null
+    heading: state.sections[ownProps.id].heading,
+    selected: state.selection !== null && state.selection.section === ownProps.id && state.selection.index === null,
+    editing: state.editor !== null && state.editor.section === ownProps.id && state.editor.index === null
 });
 
-const Header = ({section, selected}) => (
-    <header>
-        <h1>{section.heading}</h1>
-        {selected ? <Menu /> : null}
-    </header>
+const Header = ({heading, selected, editing}) => (editing ?
+        <header>
+            <input type="text" defaultValue={heading} />
+        </header>
+        :
+        <header>
+            <h1>{heading}</h1>
+            {selected ? <Menu /> : null}
+        </header>
 );
 
 export default connect(

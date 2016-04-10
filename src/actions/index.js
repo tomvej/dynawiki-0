@@ -25,3 +25,15 @@ export const appendEditor = () => ({
 export const startRenaming = () => ({
     type: Actions.START_RENAMING
 });
+
+export const rename = text => {
+    let heading = text.trim();
+    if (heading.length === 0) {
+        alert('Section heading cannot be null.'); //TODO move to validation
+        return;
+    }
+    return {
+        type: Actions.RENAME,
+        payload: heading
+    };
+};

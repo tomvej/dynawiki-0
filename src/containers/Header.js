@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const Header = ({heading, selected, editing, rename}) => (editing ?
         <header>
-            <input type="text" defaultValue={heading} onKeyDown={rename} autoFocus/>
+            <textarea rows="1" defaultValue={heading} onKeyDown={rename} autoFocus/>
         </header>
         :
         <header>

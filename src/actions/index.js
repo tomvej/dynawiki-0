@@ -21,3 +21,7 @@ export const startEditing = () => ({
 export const appendEditor = () => ({
     type: Actions.APPEND_EDITOR
 });
+
+export const startRenaming = () => ({
+    type: Actions.START_RENAMING
+});

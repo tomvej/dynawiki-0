@@ -45,13 +45,11 @@ export default (state, payload) => {
             sectionId = newId;
             index = 0;
             currentLevel++;
-        } else if (section().parent !== null) {
+        } else {
             sourceIndex = state.sections[section().parent].children.indexOf(sectionId) + 1;
             sectionId = section().parent;
             currentLevel--;
             pushSection(heading, level -1, sourceIndex, children.concat(after));
-        } else {
-            console.error('Trying to add another H1. Ignoring.'); //TODO move to validation
         }
     };
 

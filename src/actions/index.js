@@ -29,7 +29,7 @@ export const startRenaming = () => ({
 export const rename = text => {
     let heading = text.trim();
     if (heading.length === 0) {
-        alert('Section heading cannot be null.'); //TODO move to validation
+        alert('Section heading cannot be null.');
         return;
     }
     return {

@@ -13,6 +13,11 @@ const exportSectionInternal = (state, section, level = 0) => (flatten(
 
 const exportSection = (state, id) => exportSectionInternal(state, state.sections[id]).join('\n\n');
 
+const children = (state, id) => {
+    let localChildren = state.sections[id].children;
+    return flatten(localChildren, localChildren.map(id => children(state,id)));
+};
+
 export default (state, payload) => {
     let section = state.selection.section;
     let index = state.selection.index;
@@ -25,13 +30,17 @@ export default (state, payload) => {
     } else {
         index = 0;
         text = exportSection(state, section);
-        sectionsUpdate = {
+
+        sectionsUpdate = {};
+        children(state, section).forEach(id =>
+            Object.assign(sectionsUpdate, {[id]: {$set: undefined}})
+        );
+        Object.assign(sectionsUpdate, {
             [section]: {
                 contents: {$set: []},
                 children: {$set: []}
             }
-        };
-        //TODO remove orphaned sections
+        });
     }
 
     return update(state, {

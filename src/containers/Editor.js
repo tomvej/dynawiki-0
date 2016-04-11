@@ -10,9 +10,8 @@ const mapDispatchToProps = (dispatch) => ({
     publish: text => dispatch(publish(text)),
     publishAndClose: text => {
         let publishAction = publish(text);
-        if (publishAction != null) {
-            dispatch(publishAction);
-            dispatch(closeEditor());
+        if (publishAction) {
+            dispatch(publishAction) && dispatch(closeEditor());
         }
     }
 });
@@ -27,8 +26,7 @@ class Editor extends React.Component {
     }
 
     change(event) {
-        if (event.target.value.endsWith('\n\n')) {
-            this.props.publish(event.target.value);
+        if (event.target.value.endsWith('\n\n') && this.props.publish(event.target.value)) {
             this.setState({value: ''});
         } else {
             this.setState({value: event.target.value});

@@ -1,8 +1,9 @@
 import Actions from '../actions/constants'
-import { appendEditor } from '../validators'
+import { appendEditor, startRenaming } from '../validators'
 
 const validators = {
-    [Actions.APPEND_EDITOR] : appendEditor
+    [Actions.APPEND_EDITOR] : appendEditor,
+    [Actions.START_RENAMING] : startRenaming
 };
 
 export default store => next => action => {

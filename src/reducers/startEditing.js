@@ -14,26 +14,28 @@ const exportSectionInternal = (state, section, level = 0) => (flatten(
 const exportSection = (state, id) => exportSectionInternal(state, state.sections[id]).join('\n\n');
 
 export default (state, payload) => {
-    const updateState = command => {
-        state = update(state, command);
-    };
     let section = state.selection.section;
     let index = state.selection.index;
     let text = '';
+    let sectionsUpdate;
 
     if (index !== null) {
         text = state.sections[section].contents[index].text;
-        updateState({sections: {[section]: {contents: {$splice: [[index, 1]]}}}});
+        sectionsUpdate = {[section]: {contents: {$splice: [[index, 1]]}}};
     } else {
         index = 0;
         text = exportSection(state, section);
-        updateState({sections: {[section]: {
-            contents: {$set: []},
-            children: {$set: []}
-        }}});
+        sectionsUpdate = {
+            [section]: {
+                contents: {$set: []},
+                children: {$set: []}
+            }
+        };
         //TODO remove orphaned sections
     }
-    updateState({
+
+    return update(state, {
+        sections: sectionsUpdate,
         selection: {$set: null},
         editor: {$set: {
             section: section,
@@ -41,6 +43,4 @@ export default (state, payload) => {
             text: text
         }}
     });
-
-    return state;
 }

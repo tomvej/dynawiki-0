@@ -5,3 +5,7 @@ export const appendEditor = (payload, state) => (
 export const startRenaming = (payload, state) => (
     state.selection === null || state.selection.index !== null ? ['Section must be selected.'] : null
 );
+
+export const startEditing = (payload, state) => (
+    state.selection === null ? ['Cannot edit without selection.'] : null
+);

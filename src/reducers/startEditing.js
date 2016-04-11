@@ -17,10 +17,6 @@ export default (state, payload) => {
     const updateState = command => {
         state = update(state, command);
     };
-
-    if (state.selection === null) { //TODO move to validation
-        return state;
-    }
     let section = state.selection.section;
     let index = state.selection.index;
     let text = '';

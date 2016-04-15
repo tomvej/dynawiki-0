@@ -1,5 +1,7 @@
 import update from 'react-addons-update'
 
+import children from './utils/children'
+
 const flatten = (element, array) => [].concat.apply(element, array);
 
 const exportSectionInternal = (state, section, level = 0) => (flatten(
@@ -12,11 +14,6 @@ const exportSectionInternal = (state, section, level = 0) => (flatten(
 );
 
 const exportSection = (state, id) => exportSectionInternal(state, state.sections[id]).join('\n\n');
-
-const children = (state, id) => {
-    let localChildren = state.sections[id].children;
-    return flatten(localChildren, localChildren.map(id => children(state,id)));
-};
 
 export default (state, payload) => {
     let section = state.selection.section;

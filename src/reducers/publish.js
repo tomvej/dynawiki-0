@@ -1,75 +1,144 @@
 import update from 'react-addons-update'
 
+const isOtherObject = object => (!Array.isArray(object) && typeof object === 'object');
+
+const merge = (target, object) => {
+    for (const property in object) {
+        if (target.hasOwnProperty(property)) {
+            if (Array.isArray(target[property]) && Array.isArray(object[property])) {
+                [].push.apply(target[property], object[property]);
+            } else if (isOtherObject(target[property]) && isOtherObject(object[property])) {
+                merge(target[property], object[property]);
+            } else {
+                throw 'Cannot merge ' + target[property] + ' and ' + object[property];
+            }
+        } else {
+            target[property] = object[property];
+        }
+    }
+};
+
 export default (state, payload) => {
-    let updateState = command => {
-        state = update(state, command);
-    };
+    const rootCommand = {};
 
     let id = state.nextId;
     let sectionId = state.editor.section;
     let index = state.editor.index;
     let currentLevel = 0;
 
-    let updateContents = command => {
-        updateState({sections: {[sectionId]: {contents: command}}});
-    };
-    let updateChildren = command => {
-        updateState({sections: {[sectionId]: {children: command}}});
-    };
-    let section = () => state.sections[sectionId];
-    let pushParagraph = text => {
-        let paragraph = {
+    const addedSections = {};
+    const parentMap = {};
+    const childrenMap = {};
+
+    const pushParagraph = text => {
+        const paragraph = {
             id: id++,
             text: text
         };
-        updateContents({$splice: [[index, 0, paragraph]]});
+        const addedSection = addedSections[sectionId];
+        if (addedSection) {
+            addedSection.contents.splice(index, 0, paragraph);
+        } else {
+            merge(rootCommand, {sections: {[sectionId]: {contents: {$splice: [[index, 0, paragraph]]}}}});
+        }
         index++;
     };
-    let pushSection = (heading, level, sourceIndex = 0, children = []) => {
-        let after = section().children.slice(sourceIndex);
-        updateChildren({$splice: [[sourceIndex, after.length]]});
+    const updateChild = parent => child => {
+        const addedSection = addedSections[child];
+        if (addedSection) {
+            addedSection.parent = parent;
+        } else {
+            parentMap[child] = parent;
+        }
+    };
+    const parent = () => {
+        const addedSection = addedSections[sectionId];
+        if (addedSection) {
+            return addedSection.parent;
+        } if (parentMap.hasOwnProperty(sectionId)) {
+            return parentMap[sectionId];
+        } else {
+            return state.sections[sectionId].parent;
+        }
+    };
+    const children = parentId => (childrenMap.hasOwnProperty(parentId) ? childrenMap[parentId] : state.sections[parentId].children.concat());
+    const addToParent = sourceIndex => {
+        const addedSection = addedSections[parent()];
+        if (addedSection) {
+            addedSection.children.splice(sourceIndex, 0, sectionId);
+        } else {
+            const parentId = parent();
+            merge(rootCommand, {sections: {[parentId]: {children: {$splice: [[sourceIndex, 0, sectionId]]}}}});
+            childrenMap[parentId] = children(parentId);
+            childrenMap[parentId].splice(sourceIndex, 0, sectionId);
+        }
+    };
+    const pushSection = (heading, level, sourceIndex = 0, orphans = []) => {
+        const addedSection = addedSections[sectionId];
+        if (addedSection) {
+            if (sourceIndex < addedSection.children.length) {
+                orphans = orphans.concat(addedSection.children.splice(sourceIndex, addedSection.children.length - sourceIndex));
+            }
+        } else {
+            const originalChildren = children(sectionId);
+            if (sourceIndex < sourceIndex) {
+                merge(rootCommand, {sections: {[sectionId]: {children: {$splice: [[sourceIndex, originalChildren.length - sourceIndex]]}}}});
+                orphans = orphans.concat(originalChildren.splice(sourceIndex, originalChildren.length - sourceIndex));
+                childrenMap[parent()] = originalChildren;
+            }
+        }
 
         if (level === 0) {
             let newId = id++;
             let newSection = {
                 id: newId,
-                heading: heading,
                 parent: sectionId,
+                heading: heading,
                 contents: [],
-                children: children.concat(after)
+                children: orphans
             };
-            updateState({sections: {
-                $merge : {[newId] : newSection},
-                [sectionId] : {children: {$push: [newId]}}
-            }});
+            //update children
+            orphans.forEach(updateChild(newId));
             sectionId = newId;
+            addedSections[newId] = newSection;
+            addToParent(sourceIndex);
             index = 0;
             currentLevel++;
         } else {
-            sourceIndex = state.sections[section().parent].children.indexOf(sectionId) + 1;
-            sectionId = section().parent;
+            const parentId = parent();
+            const parentChildren = addedSections[parentId] ? addedSections[parentId].children : children(parentId);
+            sourceIndex = parentChildren.indexOf(sectionId) + 1;
+            sectionId = parent();
             currentLevel--;
-            pushSection(heading, level -1, sourceIndex, children.concat(after));
+            pushSection(heading, level - 1, sourceIndex, orphans);
         }
     };
 
+    const orphanedPars = payload.find(e => e.type === 'section') ? state.sections[sectionId].contents.slice(index) : [];
+    if (orphanedPars.length > 0) {
+        merge(rootCommand, {sections: {[sectionId]: {contents: {$splice: [[index, orphanedPars.length]]}}}});
+    }
     payload.forEach(element => {
-        switch (element.type) {
+        switch(element.type) {
             case 'section':
-                let orphans = section().contents.slice(index);
-                updateContents({$splice: [[index, orphans.length]]});
                 pushSection(element.heading, element.level + currentLevel);
-                updateContents({$push: orphans});
                 break;
             case 'paragraph':
                 pushParagraph(element.text);
                 break;
-            default:
-                console.warn('Unknown content type: ' + element.type);
         }
     });
+    if (orphanedPars.length > 0) {
+        [].push.apply(addedSections[sectionId].contents, orphanedPars);
+    }
 
-    updateState({
+    merge(rootCommand, {sections: {$merge: addedSections}});
+
+    for (const child in parentMap) {
+        merge(rootCommand, {sections: {[child]: {parent: {$set: parentMap[child]}}}});
+    }
+
+    merge(rootCommand, {
         nextId: {$set: id},
         editor: {
             section: {$set: sectionId},
@@ -77,5 +146,5 @@ export default (state, payload) => {
         }
     });
 
-    return state;
-}
+    return update(state, rootCommand);
+};

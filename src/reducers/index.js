@@ -6,6 +6,7 @@ import startEditing from './startEditing'
 import appendEditor from './appendEditor'
 import startRenaming from './startRenaming'
 import rename from './rename'
+import deleteSelection from './deleteSelection'
 
 const reducers = {
     [Actions.CLOSE_EDITOR] : closeEditor,
@@ -14,7 +15,8 @@ const reducers = {
     [Actions.START_EDITING] : startEditing,
     [Actions.APPEND_EDITOR] : appendEditor,
     [Actions.START_RENAMING] : startRenaming,
-    [Actions.RENAME] : rename
+    [Actions.RENAME] : rename,
+    [Actions.DELETE_SELECTION] : deleteSelection
 };
 
 export default (state, action) => {

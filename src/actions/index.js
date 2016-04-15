@@ -37,3 +37,7 @@ export const rename = text => {
         payload: heading
     };
 };
+
+export const deleteSelection = () => ({
+    type: Actions.DELETE_SELECTION
+});

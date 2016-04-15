@@ -11,3 +11,7 @@ export const startRenaming = (payload, state) => (
 export const startEditing = (payload, state) => (
     state.selection === null ? ['Cannot edit without selection.'] : null
 );
+
+export const deleteSelection = (payload, state) => (
+  state.selection === null ? ['Cannot delete empty selection'] : null
+);

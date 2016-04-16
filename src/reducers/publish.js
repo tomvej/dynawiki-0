@@ -1,5 +1,3 @@
-import update from 'react-addons-update'
-
 import merge from './utils/merge'
 
 export default (state, payload) => {
@@ -133,5 +131,5 @@ export default (state, payload) => {
         }
     });
 
-    return update(state, rootCommand);
+    return rootCommand;
 };

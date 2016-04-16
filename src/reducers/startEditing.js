@@ -1,5 +1,3 @@
-import update from 'react-addons-update'
-
 import children from './utils/children'
 
 const flatten = (element, array) => [].concat.apply(element, array);
@@ -40,7 +38,7 @@ export default (state, payload) => {
         });
     }
 
-    return update(state, {
+    return {
         sections: sectionsUpdate,
         selection: {$set: null},
         editor: {$set: {
@@ -48,5 +46,5 @@ export default (state, payload) => {
             index: index,
             text: text
         }}
-    });
+    };
 }

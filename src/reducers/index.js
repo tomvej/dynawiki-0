@@ -1,3 +1,5 @@
+import update from 'react-addons-update'
+
 import Actions from '../actions/constants'
 import closeEditor from './closeEditor'
 import publish from './publish'
@@ -24,6 +26,6 @@ export default (state, action) => {
     if (reducer === undefined) {
         return state;
     } else {
-        return reducer(state, action.payload);
+        return update(state, reducer(state, action.payload));
     }
 };

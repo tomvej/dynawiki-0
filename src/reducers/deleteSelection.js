@@ -1,5 +1,3 @@
-import update from 'react-addons-update'
-
 import children from './utils/children'
 
 export default (state, payload) => {
@@ -23,5 +21,5 @@ export default (state, payload) => {
     } else {
         Object.assign(command, {sections: {[state.selection.section]: {contents: {$splice: [[state.selection.index, 1]]}}}});
     }
-    return update(state, command);
+    return command;
 };

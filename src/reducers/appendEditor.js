@@ -1,6 +1,4 @@
-import update from 'react-addons-update'
-
-export default (state, payload) => update(state, {
+export default (state, payload) => ({
     selection: {$set: null},
     editor: {$set: {
         section: state.selection.section,

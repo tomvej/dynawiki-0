@@ -51,7 +51,7 @@ export default (state, payload) => {
             parentMap[child] = parent;
         }
     };
-    const parent = () => {
+    const getParent = () => {
         const addedSection = addedSections[sectionId];
         if (addedSection) {
             return addedSection.parent;
@@ -61,15 +61,15 @@ export default (state, payload) => {
             return state.sections[sectionId].parent;
         }
     };
-    const children = parentId => (childrenMap.hasOwnProperty(parentId) ? childrenMap[parentId] : state.sections[parentId].children.concat());
+    const getChildren = parentId => (childrenMap.hasOwnProperty(parentId) ? childrenMap[parentId] : state.sections[parentId].children.concat());
     const addToParent = sourceIndex => {
-        const addedSection = addedSections[parent()];
+        const addedSection = addedSections[getParent()];
         if (addedSection) {
             addedSection.children.splice(sourceIndex, 0, sectionId);
         } else {
-            const parentId = parent();
+            const parentId = getParent();
             merge(rootCommand, {sections: {[parentId]: {children: {$splice: [[sourceIndex, 0, sectionId]]}}}});
-            childrenMap[parentId] = children(parentId);
+            childrenMap[parentId] = getChildren(parentId);
             childrenMap[parentId].splice(sourceIndex, 0, sectionId);
         }
     };
@@ -80,11 +80,11 @@ export default (state, payload) => {
                 orphans = orphans.concat(addedSection.children.splice(sourceIndex, addedSection.children.length - sourceIndex));
             }
         } else {
-            const originalChildren = children(sectionId);
+            const originalChildren = getChildren(sectionId);
             if (sourceIndex < sourceIndex) {
                 merge(rootCommand, {sections: {[sectionId]: {children: {$splice: [[sourceIndex, originalChildren.length - sourceIndex]]}}}});
                 orphans = orphans.concat(originalChildren.splice(sourceIndex, originalChildren.length - sourceIndex));
-                childrenMap[parent()] = originalChildren;
+                childrenMap[getParent()] = originalChildren;
             }
         }
 
@@ -105,10 +105,10 @@ export default (state, payload) => {
             index = 0;
             currentLevel++;
         } else {
-            const parentId = parent();
-            const parentChildren = addedSections[parentId] ? addedSections[parentId].children : children(parentId);
+            const parentId = getParent();
+            const parentChildren = addedSections[parentId] ? addedSections[parentId].children : getChildren(parentId);
             sourceIndex = parentChildren.indexOf(sectionId) + 1;
-            sectionId = parent();
+            sectionId = getParent();
             currentLevel--;
             pushSection(heading, level - 1, sourceIndex, orphans);
         }

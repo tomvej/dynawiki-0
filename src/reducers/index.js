@@ -26,6 +26,6 @@ export default (state, action) => {
         return state;
     } else {
         const command = reducer(state, action.payload);
-        return command ? update(state, command) : state;
+        return command ? update(state, command).state : state;
     }
 };

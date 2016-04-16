@@ -16,7 +16,9 @@ const copy = target => {
 
 const update = (state, command) => {
     if (command.hasOwnProperty('$set')) {
-        return command.$set;
+        return {
+            state: command.$set
+        };
     }
 
     const newState = copy(state);
@@ -33,11 +35,13 @@ const update = (state, command) => {
 
     for (const property in command) {
         if (!commandSet[property]) {
-            newState[property] = update(state[property], command[property]);
+            newState[property] = update(state[property], command[property]).state;
         }
     }
 
-    return newState;
+    return {
+        state: newState
+    };
 };
 
 export default update;

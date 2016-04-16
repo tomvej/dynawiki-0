@@ -73,7 +73,7 @@ export default (state, payload) => {
             childrenMap[parentId].splice(sourceIndex, 0, sectionId);
         }
     };
-    const pushSection = (heading, level, sourceIndex = 0, orphans = []) => {
+    const mergeOrphans = (sourceIndex, orphans) => {
         const addedSection = addedSections[sectionId];
         if (addedSection) {
             if (sourceIndex < addedSection.children.length) {
@@ -87,7 +87,10 @@ export default (state, payload) => {
                 childrenMap[getParent()] = originalChildren;
             }
         }
-
+        return orphans;
+    };
+    const pushSection = (heading, level, sourceIndex = 0, orphans = []) => {
+        orphans = mergeOrphans(sourceIndex, orphans);
         if (level === 0) {
             let newId = id++;
             let newSection = {

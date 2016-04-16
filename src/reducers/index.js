@@ -1,5 +1,4 @@
-import update from 'react-addons-update'
-
+import update from './utils/update'
 import Actions from '../actions/constants'
 import closeEditor from './closeEditor'
 import publish from './publish'

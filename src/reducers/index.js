@@ -1,4 +1,6 @@
 import update from './utils/update'
+import merge from './utils/mergeImmutable'
+
 import Actions from '../actions/constants'
 import closeEditor from './closeEditor'
 import publish from './publish'
@@ -30,12 +32,24 @@ const commitAction = {
 const applyCommand = (state, command) => {
     const result = update(state, command);
     if (result.redo.sections) {
-        //FIXME push to "pre-undo" stack
+        const versions = result.state.versions;
+        return update(result.state, {versions: {
+            undoCommand: {$set: merge(result.undo.sections, versions.undoCommand)},
+            redoCommand: {$set: merge(versions.redoCommand, result.redo.sections)}
+        }}).state;
     }
     return result.state;
 };
 
-
+const commit = state => update(state, {versions: {
+    undo: {$splice: [[state.versions.undo.length, 0, {
+        undo: state.versions.undoCommand,
+        redo: state.versions.redoCommand
+    }]]},
+    redo: {$set: []},
+    undoCommand: {$set: {}},
+    redoCommand: {$set: {}}
+}}).state;
 
 export default (state, action) => {
     //FIXME handle undo/redo here
@@ -48,7 +62,7 @@ export default (state, action) => {
             state = applyCommand(state, command);
         }
         if (commitAction[action.type]) {
-            //FIXME push to undo stack
+            state = commit(state);
         }
         return state;
     }

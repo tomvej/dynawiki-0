@@ -13,5 +13,11 @@ export default {
         index: 0
     },
     nextId: 1,
-    selection: null
+    selection: null,
+    versions: {
+        undo: [],
+        redo: [],
+        undoCommand: {},
+        redoCommand: {}
+    }
 };

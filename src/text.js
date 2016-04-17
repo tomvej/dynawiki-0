@@ -56,5 +56,11 @@ export default {
     },
     editor : null,
     nextId: 17,
-    selection: null
+    selection: null,
+    versions: {
+        undo: [],
+        redo: [],
+        undoCommand: {},
+        redoCommand: {}
+    }
 }

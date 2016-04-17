@@ -13,15 +13,18 @@ export const applyCommand = (state, command) => {
     return result.state;
 };
 
-export const commit = state => update(state, {versions: {
-    undo: {$splice: [[state.versions.undo.length, 0, {
-        undo: state.versions.undoCommand,
-        redo: state.versions.redoCommand
-    }]]},
-    redo: {$set: []},
-    undoCommand: {$set: {}},
-    redoCommand: {$set: {}}
-}}).state;
+const isEmpty = object => Object.keys(object).length === 0;
+
+export const commit = state => isEmpty(state.versions.undoCommand) ? state :
+    update(state, {versions: {
+        undo: {$splice: [[state.versions.undo.length, 0, {
+            undo: state.versions.undoCommand,
+            redo: state.versions.redoCommand
+        }]]},
+        redo: {$set: []},
+        undoCommand: {$set: {}},
+        redoCommand: {$set: {}}
+    }}).state;
 
 const moveBetweenStacksAndApply = (src, dst) => state => {
     const srcLen = state.versions[src].length;

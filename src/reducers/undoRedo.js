@@ -23,7 +23,30 @@ export const commit = state => update(state, {versions: {
     redoCommand: {$set: {}}
 }}).state;
 
-export const undo = state => state;
+export const undo = state => {
+    const undoLength = state.versions.undo.length;
+    const redoLength = state.versions.redo.length;
+    const undo = state.versions.undo[undoLength-1];
+    console.log(undo);
+    return update(state, {
+        sections: undo.undo,
+        versions: {
+            undo: {$splice: [[undoLength - 1, 1]]},
+            redo: {$splice: [[redoLength, 0, undo]]}
+        }
+    }).state;
+};
 
-export const redo = state => state;
+export const redo = state => {
+    const undoLength = state.versions.undo.length;
+    const redoLength = state.versions.redo.length;
+    const redo = state.versions.redo[redoLength-1];
+    return update(state, {
+        sections: redo.redo,
+        versions: {
+            undo: {$splice: [[undoLength, 0, redo]]},
+            redo: {$splice: [[redoLength - 1, 1]]}
+        }
+    }).state;
+};
 

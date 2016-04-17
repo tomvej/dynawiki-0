@@ -32,8 +32,8 @@ export default (state, payload) => {
         );
         Object.assign(sectionsUpdate, {
             [section]: {
-                contents: {$set: []},
-                children: {$set: []}
+                contents: {$splice: [[0, state.sections[section].contents.length]]},
+                children: {$splice: [[0, state.sections[section].children.length]]}
             }
         });
     }

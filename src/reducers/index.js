@@ -21,18 +21,35 @@ const reducers = {
 };
 
 /** Set of actions which commit to undo/redo stack. */
-const commitActions = {
+const commitAction = {
     [Actions.PUBLISH] : true,
     [Actions.RENAME] : true,
     [Actions.DELETE_SELECTION] : true
 };
 
+const applyCommand = (state, command) => {
+    const result = update(state, command);
+    if (result.redo.sections) {
+        //FIXME push to "pre-undo" stack
+    }
+    return result.state;
+};
+
+
+
 export default (state, action) => {
+    //FIXME handle undo/redo here
     let reducer = reducers[action.type];
     if (reducer === undefined) {
         return state;
     } else {
         const command = reducer(state, action.payload);
-        return command ? update(state, command).state : state;
+        if (command) {
+            state = applyCommand(state, command);
+        }
+        if (commitAction[action.type]) {
+            //FIXME push to undo stack
+        }
+        return state;
     }
 };

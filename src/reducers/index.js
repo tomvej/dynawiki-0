@@ -1,5 +1,4 @@
-import update from './utils/update'
-import merge from './utils/mergeImmutable'
+import { applyCommand, commit, undo, redo } from './undoRedo'
 
 import Actions from '../actions/constants'
 import closeEditor from './closeEditor'
@@ -29,30 +28,14 @@ const commitAction = {
     [Actions.DELETE_SELECTION] : true
 };
 
-const applyCommand = (state, command) => {
-    const result = update(state, command);
-    if (result.redo.sections) {
-        const versions = result.state.versions;
-        return update(result.state, {versions: {
-            undoCommand: {$set: merge(result.undo.sections, versions.undoCommand)},
-            redoCommand: {$set: merge(versions.redoCommand, result.redo.sections)}
-        }}).state;
-    }
-    return result.state;
-};
-
-const commit = state => update(state, {versions: {
-    undo: {$splice: [[state.versions.undo.length, 0, {
-        undo: state.versions.undoCommand,
-        redo: state.versions.redoCommand
-    }]]},
-    redo: {$set: []},
-    undoCommand: {$set: {}},
-    redoCommand: {$set: {}}
-}}).state;
-
 export default (state, action) => {
-    //FIXME handle undo/redo here
+    if (action.type === Actions.UNDO) {
+        return undo(state);
+    }
+    if (action.type === Actions.REDO) {
+        return redo(state);
+    }
+
     let reducer = reducers[action.type];
     if (reducer === undefined) {
         return state;

@@ -23,30 +23,19 @@ export const commit = state => update(state, {versions: {
     redoCommand: {$set: {}}
 }}).state;
 
-export const undo = state => {
-    const undoLength = state.versions.undo.length;
-    const redoLength = state.versions.redo.length;
-    const undo = state.versions.undo[undoLength-1];
-    console.log(undo);
+const moveBetweenStacksAndApply = (src, dst) => state => {
+    const srcLen = state.versions[src].length;
+    const dstLen = state.versions[dst].length;
+    const element = state.versions[src][srcLen-1];
     return update(state, {
-        sections: undo.undo,
+        sections: element[src],
         versions: {
-            undo: {$splice: [[undoLength - 1, 1]]},
-            redo: {$splice: [[redoLength, 0, undo]]}
+            [src]: {$splice: [[srcLen-1, 1]]},
+            [dst]: {$splice: [[dstLen, 0, element]]}
         }
     }).state;
 };
 
-export const redo = state => {
-    const undoLength = state.versions.undo.length;
-    const redoLength = state.versions.redo.length;
-    const redo = state.versions.redo[redoLength-1];
-    return update(state, {
-        sections: redo.redo,
-        versions: {
-            undo: {$splice: [[undoLength, 0, redo]]},
-            redo: {$splice: [[redoLength - 1, 1]]}
-        }
-    }).state;
-};
+export const undo = moveBetweenStacksAndApply('undo', 'redo');
 
+export const redo = moveBetweenStacksAndApply('redo', 'undo');

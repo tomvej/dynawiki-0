@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { undo, redo } from '../actions'
 
 const mapStateToProps = state => ({
-    canUndo: true,
-    canRedo: true
+    canUndo: state.versions.undo.length > 0,
+    canRedo: state.versions.redo.length > 0
 });
 
 const catchEvent = (dispatch, generator) => event => {

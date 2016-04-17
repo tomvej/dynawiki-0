@@ -41,3 +41,11 @@ export const rename = text => {
 export const deleteSelection = () => ({
     type: Actions.DELETE_SELECTION
 });
+
+export const undo = () => ({
+    type: Actions.UNDO
+});
+
+export const redo = () => ({
+    type: Actions.REDO
+});

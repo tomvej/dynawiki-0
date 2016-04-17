@@ -20,6 +20,13 @@ const reducers = {
     [Actions.DELETE_SELECTION] : deleteSelection
 };
 
+/** Set of actions which commit to undo/redo stack. */
+const commitActions = {
+    [Actions.PUBLISH] : true,
+    [Actions.RENAME] : true,
+    [Actions.DELETE_SELECTION] : true
+};
+
 export default (state, action) => {
     let reducer = reducers[action.type];
     if (reducer === undefined) {

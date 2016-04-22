@@ -119,9 +119,9 @@ export default (state, payload) => {
 
     merge(rootCommand, {sections: {$merge: addedSections}});
 
-    for (const child in parentMap) {
+    Object.getOwnPropertyNames(parentMap).forEach(child => {
         merge(rootCommand, {sections: {[child]: {parent: {$set: parentMap[child]}}}});
-    }
+    });
 
     merge(rootCommand, {
         nextId: {$set: id},

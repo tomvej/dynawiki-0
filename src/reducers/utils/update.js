@@ -30,10 +30,10 @@ const update = (state, command) => {
     if (command.hasOwnProperty('$merge')) {
         Object.assign(newState, command.$merge);
 
-        for (const property in command.$merge) {
+        Object.getOwnPropertyNames(command.$merge).forEach(property => {
             Object.assign(undo, {[property]: {$set: null}});
             Object.assign(redo, {[property]: {$set: command.$merge[property]}});
-        }
+        });
     }
 
     if (command.hasOwnProperty('$splice')) {
@@ -46,14 +46,14 @@ const update = (state, command) => {
         });
     }
 
-    for (const property in command) {
+    Object.getOwnPropertyNames(command).forEach(property => {
         if (!commandSet[property]) {
             const subResult = update(state[property], command[property]);
             newState[property] = subResult.state;
             undo[property] = subResult.undo;
             redo[property] = subResult.redo;
         }
-    }
+    });
 
     return {
         state: newState,

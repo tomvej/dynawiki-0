@@ -12,18 +12,18 @@ const merge = (object, target) => {
     };
 
     const result = {};
-    for (const property in object) {
+    Object.getOwnPropertyNames(object).forEach(property => {
         if (target.hasOwnProperty(property)) {
             result[property] = mergeProperty(object[property], target[property]);
         } else {
             result[property] = object[property];
         }
-    }
-    for (const property in target) {
+    });
+    Object.getOwnPropertyNames(target).forEach(property => {
         if (!object.hasOwnProperty(property)) {
             result[property] = target[property];
         }
-    }
+    });
     return result;
 };
 

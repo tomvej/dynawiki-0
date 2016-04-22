@@ -1,7 +1,7 @@
 const isOtherObject = object => (!Array.isArray(object) && typeof object === 'object');
 
 const merge = (target, object) => {
-    for (const property in object) {
+    Object.getOwnPropertyNames(object).forEach(property => {
         if (target.hasOwnProperty(property)) {
             if (Array.isArray(target[property]) && Array.isArray(object[property])) {
                 [].push.apply(target[property], object[property]);
@@ -13,7 +13,7 @@ const merge = (target, object) => {
         } else {
             target[property] = object[property];
         }
-    }
+    });
 };
 
 export default merge;

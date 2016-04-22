@@ -37,7 +37,7 @@ section, p {
     z-index: 2;
 }
 
-#node-menu a {
+#node-menu a, #toolbar a{
     padding: 2px;
     margin: 2px;
     background-color: #FAFAFA;
@@ -47,7 +47,7 @@ section, p {
     font-weight: bold;
 }
 
-#node-menu a:hover {
+#node-menu a:hover, #toolbar a:hover {
     padding: 2px;
     border: 1px solid black;
 }
@@ -66,4 +66,14 @@ section, p {
 header textarea {
     font-size: 12pt;
     font-weight: bold;
+}
+
+#toolbar {
+    position: relative;
+    z-index: 1;
+}
+
+#redo {
+    position: absolute;
+    right: 0;
 }

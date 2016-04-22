@@ -35,7 +35,8 @@ const moveBetweenStacksAndApply = (src, dst) => state => {
         versions: {
             [src]: {$splice: [[srcLen-1, 1]]},
             [dst]: {$splice: [[dstLen, 0, element]]}
-        }
+        },
+        selection: {$set: null}
     }).state;
 };
 

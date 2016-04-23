@@ -40,11 +40,14 @@ section, p {
 #node-menu a, #toolbar a{
     padding: 2px;
     margin: 2px;
-    background-color: #FAFAFA;
     border: 1px solid #AAAAAA;
     color: black;
     text-decoration: none;
     font-weight: bold;
+}
+
+#node-menu a {
+    background-color: #FAFAFA;
 }
 
 #node-menu a:hover, #toolbar a:hover {
@@ -68,12 +71,16 @@ header textarea {
     font-weight: bold;
 }
 
-#toolbar {
-    position: relative;
-    z-index: 1;
+#toolbar:after { /* clearfix */
+    content: '';
+    display: block;
+    clear: both;
+}
+
+#undo {
+    float: left;
 }
 
 #redo {
-    position: absolute;
-    right: 0;
+    float: right;
 }

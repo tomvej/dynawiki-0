@@ -1,3 +1,10 @@
+import deepFreeze from './deepFreeze'
+
+const freeze = object => {
+    deepFreeze(object);
+    return object;
+};
+
 const commandSet = {
     $set: true,
     $splice: true,
@@ -16,11 +23,11 @@ const copy = target => {
 
 const update = (state, command) => {
     if (command.hasOwnProperty('$set')) {
-        return {
+        return freeze({
             state: command.$set,
             undo: {$set: state},
             redo: {$set: command.$set}
-        };
+        });
     }
 
     const newState = copy(state);
@@ -55,11 +62,11 @@ const update = (state, command) => {
         }
     });
 
-    return {
+    return freeze({
         state: newState,
         undo: undo,
         redo: redo
-    };
+    });
 };
 
 export default update;

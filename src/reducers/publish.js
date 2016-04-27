@@ -125,10 +125,11 @@ export default (state, payload) => {
 
     merge(rootCommand, {
         nextId: {$set: id},
-        editor: {
-            section: {$set: sectionId},
-            index: {$set: index}
-        }
+        editor: {$set: {
+            section: sectionId,
+            index: index,
+            text: ''
+        }}
     });
 
     return rootCommand;

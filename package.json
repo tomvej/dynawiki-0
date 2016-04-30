@@ -30,6 +30,6 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/webpack -d --watch",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-register --recursive --reporter spec"
+    "test": "./node_modules/.bin/mocha --compilers js:babel-register --recursive --reporter spec --watch"
   }
 }

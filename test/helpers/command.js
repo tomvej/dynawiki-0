@@ -13,7 +13,11 @@ export default function(chai, utils) {
         expect(object).to.be.an('array');
         object.forEach(elem => {
             expect(elem).to.be.an('array');
-            expect(elem).to.have.length.above(1);
+            expect(elem).to.have.length.at.least(1);
+            expect(elem[0]).to.be.a('number').and.not.NaN;
+            if (elem.length > 1) {
+                expect(elem[1]).to.be.a('number').at.least(0);
+            }
         });
     };
     const assertCommand = object => {
@@ -34,7 +38,7 @@ export default function(chai, utils) {
                 assertCommand(object[property]);
             }
         });
-        expect(localCommands).to.have.length.below(2);
+        expect(localCommands).to.have.length.at.most(1);
     };
 
 

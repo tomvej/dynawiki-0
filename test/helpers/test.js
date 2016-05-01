@@ -1,9 +1,11 @@
 import chai, { expect, should } from 'chai'
 
 import command from './command'
+import applicable from './applicable'
 
 should();
 chai.use(command);
+chai.use(applicable);
 
 describe('Commands Helpers', function() {
     describe('command property', function() {
@@ -120,5 +122,19 @@ describe('Commands Helpers', function() {
             }).should.not.be.a.command;
         });
     });
+    describe('is applicable predicate', function () {
+        describe('$set', function () {
+            it('should apply on undefined', function () {
+                ({$set: {}}).should.applyOn(undefined);
+            });
+            it('should apply on simple object', function () {
+                ({$set: {}}).should.applyOn({test: 214});
+            });
+            it('should apply on array', function () {
+                ({$set: {}}).should.applyOn([1,2,3]);
+            });
+        });
+        //FIXME
+    })
 });
 

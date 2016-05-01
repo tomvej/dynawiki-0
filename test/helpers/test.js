@@ -1,11 +1,11 @@
 import chai, { expect, should } from 'chai'
 
-import reducers from './commands'
+import command from './command'
 
 should();
-chai.use(reducers);
+chai.use(command);
 
-describe('Commands Utils', function() {
+describe('Commands Helpers', function() {
     describe('command property', function() {
         it('should be satisfied by an empty object', function () {
             ({}).should.be.a.command;

@@ -6,24 +6,24 @@ const commands = {
 
 export default function(chai, utils) {
     const expect = object => new chai.Assertion(object);
-    const isMergeCommand = object => {
+    const assertMergeCommand = object => {
         expect(object).to.be.an('object');
     };
-    const isSpliceCommand = object => {
+    const assertSpliceCommand = object => {
         expect(object).to.be.an('array');
         object.forEach(elem => {
             expect(elem).to.be.an('array');
             expect(elem).to.have.length.above(1);
         });
     };
-    const isCommand = object => {
+    const assertCommand = object => {
         expect(object).to.be.an('object');
 
         if (object.hasOwnProperty('$merge')) {
-            isMergeCommand(object['$merge']);
+            assertMergeCommand(object['$merge']);
         }
         if (object.hasOwnProperty('$splice')) {
-            isSpliceCommand(object['$splice']);
+            assertSpliceCommand(object['$splice']);
         }
 
         const localCommands = [];
@@ -31,7 +31,7 @@ export default function(chai, utils) {
             if (commands[property]) {
                 localCommands.push(property);
             } else {
-                isCommand(object[property]);
+                assertCommand(object[property]);
             }
         });
         expect(localCommands).to.have.length.below(2);
@@ -40,9 +40,9 @@ export default function(chai, utils) {
 
     chai.Assertion.addProperty('command', function () {
         if (utils.flag(this, 'negate')) {
-            new expect(() => isCommand(this._obj)).to.throw(chai.AssertionError);
+            expect(() => assertCommand(this._obj)).to.throw(chai.AssertionError);
         } else {
-            isCommand(this._obj);
+            assertCommand(this._obj);
         }
     });
 }

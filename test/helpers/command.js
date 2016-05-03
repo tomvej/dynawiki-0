@@ -4,6 +4,9 @@ const commands = {
     $splice: true
 };
 
+/**
+ * Asserts that object is a valid command for update.
+ */
 export default function(chai, utils) {
     const expect = object => new chai.Assertion(object);
     const assertMergeCommand = object => {

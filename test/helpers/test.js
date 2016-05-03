@@ -2,10 +2,14 @@ import chai, { expect, should } from 'chai'
 
 import command from './command'
 import applicable from './applicable'
+import model from './model'
+import isomorphic from './isomorphic'
 
 should();
 chai.use(command);
 chai.use(applicable);
+chai.use(model);
+chai.use(isomorphic);
 
 describe('Update Helpers', function() {
     describe('command property', function() {

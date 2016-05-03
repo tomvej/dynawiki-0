@@ -4,6 +4,9 @@ const commands = {
     $splice: true
 };
 
+/**
+ * Asserts that command is applicable on target.
+ */
 export default function(chai, utils) {
     const expect = object => new chai.Assertion(object);
     const assertSpliceApplicable = (command, target) => {

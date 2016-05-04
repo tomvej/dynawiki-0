@@ -59,4 +59,40 @@ describe('Update Routine', function () {
             });
         });
     });
+    describe('$splice command', function () {
+        it('should delete the rest when without second argument', function () {
+            update([1, 2, 3], {$splice: [[2]]}).state.should.deep.equal([1, 2]);
+        });
+        it('should accept negative start', function () {
+            update([1, 2, 3], {$splice: [[-1]]}).state.should.deep.equal([1, 2]);
+        });
+        it('should delete none when zero specified', function () {
+            update([1, 2, 3], {$splice: [[1, 0]]}).state.should.deep.equal([1, 2, 3]);
+        });
+        it('should delete precise number', function () {
+            update([1, 2, 3, 4], {$splice: [[1, 1]]}).state.should.deep.equal([1, 3, 4]);
+        });
+        it('should append elements', function () {
+            update([1, 2, 3], {$splice: [[1, 0, 4, 5]]}).state.should.deep.equal([1, 4, 5, 2, 3]);
+        });
+        it('should delete and append', function () {
+            update([1, 2, 3], {$splice: [[1, 2, 4, 5]]}).state.should.deep.equal([1, 4, 5]);
+        });
+        it('should delete and append with multiple arguments', function () {
+            update([1, 2, 3], {$splice: [[2, 1, 4, 5], [1, 2, 6, 7], [3, 1]]}).state.should.deep.equal([1, 6, 7]);
+        });
+        it('should work nested', function () {
+            update({
+                sections: {
+                    1: {id: 1, heading: 'First Section', children: [1, 2, 3]},
+                    2: {id: 2, heading: 'Second Section', children: [1, 2, 3]}
+                }
+            }, {sections: {2: {children: {$splice: [[2, 1, 4]]}}}}).state.should.deep.equal({
+                sections: {
+                    1: {id: 1, heading: 'First Section', children: [1, 2, 3]},
+                    2: {id: 2, heading: 'Second Section', children: [1, 2, 4]}
+                }
+            });
+        });
+    });
 });

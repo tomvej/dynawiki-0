@@ -95,4 +95,49 @@ describe('Update Routine', function () {
             });
         });
     });
+    it('should change several subtrees at once', function () {
+        update({
+            sections: {
+                1: {id: 1, heading: 'First Section', children: [1, 2, 3]},
+                2: {id: 2, heading: 'Second Section', children: [4, 5, 6]},
+                3: {id: 3, heading: 'Third Section', children: [7, 8, 9]}
+            },
+            editor: {
+                section: 2,
+                index: 1,
+                text: ''
+            }
+        }, {
+            sections: {
+                $merge: {
+                    4: {id: 4, heading: 'Now it gets weird'}
+                },
+                1: {$set: {id: 5, heading: 'WTF?'}},
+                2: {
+                    id: {$set: 4},
+                    children: {$splice: [[1, 1]]}
+                },
+                3: {
+                    $merge: {content: ['Nothing', 'Something']},
+                    children: {$splice: [[-1, 0, 12, 13]]}
+                }
+            },
+            editor: {
+                index: {$set: 12}
+            }
+
+        }).state.should.deep.equal({
+            sections: {
+                1: {id: 5, heading: 'WTF?'},
+                2: {id: 4, heading: 'Second Section', children: [4, 6]},
+                3: {id: 3, heading: 'Third Section', children: [7, 8, 12, 13, 9], content: ['Nothing', 'Something']},
+                4: {id: 4, heading: 'Now it gets weird'}
+            },
+            editor: {
+                section: 2,
+                index: 12,
+                text: ''
+            }
+        });
+    });
 });

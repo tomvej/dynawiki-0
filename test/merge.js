@@ -56,6 +56,7 @@ describe('Merge Helper', function () {
     it('should not merge number to array', function () {
         const target = [1];
         (() => merge(target, 12)).should.throw();
+        target.should.deep.equal([1]);
     });
     it('should not merge undefined to array', function () {
         const target = [1];
@@ -63,14 +64,10 @@ describe('Merge Helper', function () {
         target.should.deep.equal([1]);
     });
     it('should not merge strings', function () {
-        const target = 'string';
-        (() => merge(target, 'asfafa')).should.throw();
-        target.should.deep.equal('string');
+        (() => merge('string', 'asfafa')).should.throw();
     });
     it('should not merge strings to number', function () {
-        const target = 15;
-        (() => merge(target, 'sfafa')).should.throw();
-        target.should.deep.equal(15);
+        (() => merge(16, 'sfafa')).should.throw();
     });
     it('should allow deep object merging', function () {
         const target = {sections: {1: {id: {$set: 12}}}};

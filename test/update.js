@@ -140,4 +140,50 @@ describe('Update Routine', function () {
             }
         });
     });
+    it('should not modify the original', function () {
+        const target = {
+            sections: {
+                1: {id: 1, heading: 'First Section', children: [1, 2, 3]},
+                2: {id: 2, heading: 'Second Section', children: [4, 5, 6]},
+                3: {id: 3, heading: 'Third Section', children: [7, 8, 9]}
+            },
+            editor: {
+                section: 2,
+                index: 1,
+                text: ''
+            }
+        };
+        update(target, {
+            sections: {
+                $merge: {
+                    4: {id: 4, heading: 'Now it gets weird'}
+                },
+                1: {$set: {id: 5, heading: 'WTF?'}},
+                2: {
+                    id: {$set: 4},
+                    children: {$splice: [[1, 1]]}
+                },
+                3: {
+                    $merge: {content: ['Nothing', 'Something']},
+                    children: {$splice: [[-1, 0, 12, 13]]}
+                }
+            },
+            editor: {
+                index: {$set: 12}
+            }
+
+        });
+        target.should.deep.equal({
+            sections: {
+                1: {id: 1, heading: 'First Section', children: [1, 2, 3]},
+                2: {id: 2, heading: 'Second Section', children: [4, 5, 6]},
+                3: {id: 3, heading: 'Third Section', children: [7, 8, 9]}
+            },
+            editor: {
+                section: 2,
+                index: 1,
+                text: ''
+            }
+        });
+    });
 });

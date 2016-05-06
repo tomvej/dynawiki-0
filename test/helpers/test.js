@@ -235,5 +235,21 @@ describe('Update Helpers', function() {
             });
         });
     })
+    describe('model property', function () {
+       it('should accept a simple model', function () {
+           ({
+               sections: {
+                   0: {
+                       id: 0,
+                       heading: 'H1',
+                       children: [],
+                       contents: []
+                   }
+               },
+               selection: null,
+               editor: null,
+           }).should.be.model;
+       });
+    });
 });
 

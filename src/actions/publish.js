@@ -61,7 +61,7 @@ export default (text) => {
     pushParagraph();
 
     if (errors.length > 0) {
-        alert(errors.join('\n'));
+        throw errors.join('\n');
     } else {
         return {
             type: Actions.PUBLISH,

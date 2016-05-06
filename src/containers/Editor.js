@@ -7,11 +7,21 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    publish: text => dispatch(publish(text)),
+    publish: text => {
+        try {
+            return dispatch(publish(text));
+        } catch (err) {
+            alert(err);
+        }
+    },
     publishAndClose: text => {
-        let publishAction = publish(text);
-        if (publishAction) {
-            dispatch(publishAction) && dispatch(closeEditor());
+        try {
+            const publishAction = publish(text);
+            if (publishAction) {
+                dispatch(publishAction) && dispatch(closeEditor());
+            }
+        } catch (err) {
+            alert(err);
         }
     }
 });

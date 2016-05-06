@@ -74,4 +74,36 @@ describe('Publish Reducer', function () {
             }
         });
     });
+    it('should insert paragraph', function() {
+        [
+            paragraph('Paragraph')
+        ].should.update({
+            nextId: 3,
+            section: 0,
+            index: 1,
+            0: {
+                id: 0,
+                heading: 'H1',
+                contents: [
+                    { id: 1, text: 'First paragraph'},
+                    { id: 2, text: 'Second paragraph'}
+                ],
+                children: []
+            }
+        }).to({
+            nextId: 4,
+            section: 0,
+            index: 2,
+            0: {
+                id: 0,
+                heading: 'H1',
+                contents: [
+                    { id: 1, text: 'First paragraph'},
+                    { id: 3, text: 'Paragraph'},
+                    { id: 2, text: 'Second paragraph'}
+                ],
+                children: []
+            }
+        });
+    });
 });

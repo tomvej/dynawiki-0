@@ -352,4 +352,87 @@ describe('Publish Reducer', function () {
             index: 1
         });
     });
+    it('should insert lower-level section structure', function () {
+        [
+            section(0, 'S1'),
+            paragraph('P1'),
+            section(-1, 'S2'),
+            paragraph('P2'),
+            section(-1, 'S3'),
+            section(-2, 'S4'),
+            section(-3, 'S5'),
+            section(-2, 'S6'),
+            paragraph('P3'),
+            section(0, 'S7')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [],
+                contents: []
+            },
+            nextId: 1,
+            section: 0,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 10],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [3, 5],
+                contents: [{id: 2, text: 'P1'}]
+            },
+            3: {
+                id: 3,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: [{id: 4, text: 'P2'}]
+            },
+            5: {
+                id: 5,
+                parent: 1,
+                heading: 'S3',
+                children: [6, 8],
+                contents: []
+            },
+            6: {
+                id: 6,
+                parent: 5,
+                heading: 'S4',
+                children: [7],
+                contents: []
+            },
+            7: {
+                id: 7,
+                parent: 6,
+                heading: 'S5',
+                children: [],
+                contents: []
+            },
+            8: {
+                id: 8,
+                parent: 5,
+                heading: 'S6',
+                children: [],
+                contents: [{id: 9, text: 'P3'}]
+            },
+            10: {
+                id: 10,
+                parent: 0,
+                heading: 'S7',
+                children: [],
+                contents: []
+            },
+            nextId: 11,
+            section: 10,
+            index: 0
+        });
+    });
 });

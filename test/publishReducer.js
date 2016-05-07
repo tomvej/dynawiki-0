@@ -254,4 +254,102 @@ describe('Publish Reducer', function () {
             index: 1
         });
     });
+    it('should insert lower-level section before another lower-level section', function () {
+        [
+            section(0, 'Subsection'),
+            paragraph('Subparagraph')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'Main Section',
+                children: [1],
+                contents: [{id: 2, text: 'I am a paragraph'}]
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'Another Subsection',
+                children: [],
+                contents: [{id: 3, text: 'Subsection paragraph'}]
+            },
+            nextId: 4,
+            section: 0,
+            index: 1
+        }).to({
+            0: {
+                id: 0,
+                heading: 'Main Section',
+                children: [4, 1],
+                contents: [{id: 2, text: 'I am a paragraph'}],
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'Another Subsection',
+                children: [],
+                contents: [{id: 3, text: 'Subsection paragraph'}]
+            },
+            4: {
+                id: 4,
+                parent: 0,
+                heading: 'Subsection',
+                children: [],
+                contents: [{id: 5, text: 'Subparagraph'}]
+            },
+            nextId: 6,
+            section: 4,
+            index: 1
+        });
+    });
+    it('should insert same-level section with paragraph', function () {
+        [
+            section(1, 'IS1'),
+            paragraph('IP1')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S1',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                children: [],
+                contents: [
+                    {id: 2, text: 'P1'},
+                    {id: 3, text: 'P2'}
+                ]
+            },
+            nextId: 4,
+            section: 1,
+            index: 1
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S1',
+                children: [1, 4],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                children: [],
+                contents: [{id:2, text: 'P1'}]
+            },
+            4: {
+                id: 4,
+                parent: 0,
+                heading: 'IS1',
+                children: [],
+                contents: [
+                    {id: 5, text: 'IP1'},
+                    {id: 3, text: 'P2'}
+                ]
+            },
+            nextId: 6,
+            section: 4,
+            index: 1
+        });
+    });
 });

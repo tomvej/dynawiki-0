@@ -555,4 +555,78 @@ describe('Publish Reducer', function () {
             index: 0
         });
     });
+    it('should append section when inserting higher-level section before it', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [3],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 2,
+                heading: 'S3',
+                children: [],
+                contents: []
+            },
+            nextId: 4,
+            section: 2,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 4, 3],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 0,
+                heading: 'S3',
+                children: [],
+                contents: []
+            },
+            4: {
+                id: 4,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: []
+            },
+            nextId: 5,
+            section: 4,
+            index: 0
+        });
+    });
 });

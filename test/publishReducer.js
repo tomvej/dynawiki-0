@@ -352,7 +352,7 @@ describe('Publish Reducer', function () {
             index: 1
         });
     });
-    it('should insert lower-level section structure', function () {
+    it('should append lower-level section structure', function () {
         [
             section(0, 'S1'),
             paragraph('P1'),
@@ -432,6 +432,126 @@ describe('Publish Reducer', function () {
             },
             nextId: 11,
             section: 10,
+            index: 0
+        });
+    });
+    it('should append higher-level section', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            nextId: 3,
+            section: 2,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 3],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: []
+            },
+            nextId: 4,
+            section: 3,
+            index: 0
+        });
+    });
+    it('should insert higher-level section', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: [{id: 3, text: 'paragraph'}]
+            },
+            nextId: 4,
+            section: 2,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 4],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            4: {
+                id: 4,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: [{id: 3, text: 'paragraph'}]
+            },
+            nextId: 5,
+            section: 4,
             index: 0
         });
     });

@@ -893,4 +893,109 @@ describe('Publish Reducer', function () {
            index: 0
        });
     });
+    it('should collapse following sections with paragraphs on higher-level section insertion', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 2],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S0',
+                children: [3, 4],
+                contents: [{id: 6, text: 'P6'}]
+            },
+            2: {
+                id: 2,
+                parent: 0,
+                heading: 'S2',
+                children: [],
+                contents: [{id: 7, text: 'P7'}]
+            },
+            3: {
+                id: 3,
+                parent: 1,
+                heading: 'S3',
+                children: [5],
+                contents: [
+                    {id: 8, text: 'P8'},
+                    {id: 9, text: 'P9'}
+                ]
+            },
+            4: {
+                id: 4,
+                parent: 1,
+                heading: 'S4',
+                children: [],
+                contents: [{id: 10, text: 'P10'}]
+            },
+            5: {
+                id: 5,
+                parent: 3,
+                heading: 'S5',
+                children: [],
+                contents: [{id: 11, text: 'P11'}]
+            },
+            nextId: 12,
+            section: 3,
+            index: 1
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 2, 12, 5, 4],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [3],
+                contents: [{id: 6, text: 'P6'}]
+            },
+            2: {
+                id: 2,
+                parent: 0,
+                heading: 'S2',
+                children: [],
+                contents: [{id: 7, text: 'P7'}]
+            },
+            3: {
+                id: 3,
+                parent: 1,
+                heading: 'S3',
+                children: [],
+                contents: [{id: 8, text: 'P8'}]
+            },
+            4: {
+                id: 4,
+                parent: 0,
+                heading: 'S4',
+                children: [],
+                contents: [{id: 10, text: 'P10'}]
+            },
+            5: {
+                id: 5,
+                parent: 0,
+                heading: 'S5',
+                children: [],
+                contents: [{id: 11, text: 'P11'}]
+            },
+            12: {
+                id: 12,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: [{id: 9, text: 'P9'}]
+            },
+            nextId: 13,
+            section: 12,
+            index: 0
+        });
+    });
 });

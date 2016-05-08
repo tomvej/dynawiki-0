@@ -629,6 +629,168 @@ describe('Publish Reducer', function () {
             index: 0
         });
     });
+    it('should append section (with paragraph) when inserting higher-level section before it', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [3],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 2,
+                heading: 'S3',
+                children: [],
+                contents: [{id: 4, text: 'Look at me! I am a paragraph!'}]
+            },
+            nextId: 5,
+            section: 2,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 5, 3],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 0,
+                heading: 'S3',
+                children: [],
+                contents: [{id: 4, text: 'Look at me! I am a paragraph!'}]
+            },
+            5: {
+                id: 5,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: []
+            },
+            nextId: 6,
+            section: 5,
+            index: 0
+        });
+    });
+    it('should append section (with subsection) when inserting higher-level section before it', function () {
+        [
+            section(2, 'IS')
+        ].should.update({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [3],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 2,
+                heading: 'S3',
+                children: [4],
+                contents: []
+            },
+            4: {
+                id: 4,
+                parent: 3,
+                heading: 'S4',
+                children: [],
+                contents: []
+            },
+            nextId: 5,
+            section: 2,
+            index: 0
+        }).to({
+            0: {
+                id: 0,
+                heading: 'S0',
+                children: [1, 5, 3],
+                contents: []
+            },
+            1: {
+                id: 1,
+                parent: 0,
+                heading: 'S1',
+                children: [2],
+                contents: []
+            },
+            2: {
+                id: 2,
+                parent: 1,
+                heading: 'S2',
+                children: [],
+                contents: []
+            },
+            3: {
+                id: 3,
+                parent: 0,
+                heading: 'S3',
+                children: [4],
+                contents: []
+            },
+            4: {
+                id: 4,
+                parent: 3,
+                heading: 'S4',
+                children: [],
+                contents: []
+            },
+            5: {
+                id: 5,
+                parent: 0,
+                heading: 'IS',
+                children: [],
+                contents: []
+            },
+            nextId: 6,
+            section: 5,
+            index: 0
+        });
+    });
     it('should collapse following sections on higher-level section insertion', function () {
        [
            section(2, 'IS')

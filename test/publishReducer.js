@@ -431,5 +431,36 @@ describe('Publish Reducer', function () {
             index: 1
         });
     })
-
+    it('should collapse following sections when two higher-level sections are inserted', function() {
+        [
+            section(2, 'IS1'),
+            section(3, 'IS2')
+        ].should.update({
+            0: { id: 0, heading: 'S0', children: [1, 2], contents: []},
+            1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: []},
+            2: { id: 2, parent: 0, heading: 'S2', children: [], contents: []},
+            3: { id: 3, parent: 1, heading: 'S3', children: [5, 6], contents: []},
+            4: { id: 4, parent: 1, heading: 'S4', children: [], contents: []},
+            5: { id: 5, parent: 3, heading: 'S5', children: [7], contents: []},
+            6: { id: 6, parent: 3, heading: 'S6', children: [], contents: []},
+            7: { id: 7, parent: 5, heading: 'S7', children: [], contents: []},
+            nextId: 8,
+            section: 5,
+            index: 0
+        }).to({
+            0: { id: 0, heading: 'S0', children: [1, 9, 7, 6, 4, 2], contents: []},
+            1: { id: 1, parent: 0, heading: 'S1', children: [3, 8], contents: []},
+            2: { id: 2, parent: 0, heading: 'S2', children: [], contents: []},
+            3: { id: 3, parent: 1, heading: 'S3', children: [5], contents: []},
+            4: { id: 4, parent: 0, heading: 'S4', children: [], contents: []},
+            5: { id: 5, parent: 3, heading: 'S5', children: [], contents: []},
+            6: { id: 6, parent: 0, heading: 'S6', children: [], contents: []},
+            7: { id: 7, parent: 0, heading: 'S7', children: [], contents: []},
+            8: { id: 8, parent: 1, heading: 'IS1', children: [], contents: []},
+            9: { id: 9, parent: 0, heading: 'IS2', children: [], contents: []},
+            nextId: 10,
+            section: 9,
+            index: 0
+        });
+    });
 });

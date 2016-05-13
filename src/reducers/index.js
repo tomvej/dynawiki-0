@@ -14,6 +14,7 @@ const reducers = {
     [Actions.CLOSE_EDITOR] : closeEditor,
     [Actions.PUBLISH] : publish,
     [Actions.CHANGE_SELECTION] : changeSelection,
+    [Actions.CLEAR_SELECTION]: state => changeSelection(state, null),
     [Actions.START_EDITING] : startEditing,
     [Actions.APPEND_EDITOR] : appendEditor,
     [Actions.START_RENAMING] : startRenaming,

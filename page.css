@@ -15,19 +15,12 @@ textarea {
     resize: vertical;
 }
 
-[data-selected="true"] {
-    border-right: solid 3px #AAAAAA;
-    padding-right: 0px;
-    background-color: #FAFAFA;
-}
-
 section {
     padding-left: 10px;
 }
 
 section, p {
     position: relative;
-    padding-right: 3px;
 }
 
 #node-menu {

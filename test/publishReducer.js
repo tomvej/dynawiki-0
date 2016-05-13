@@ -377,7 +377,7 @@ describe('Publish Reducer', function () {
             section(2, 'IS')
         ].should.update({
             0: { id: 0, heading: 'S0', children: [1, 2], contents: []},
-            1: { id: 1, parent: 0, heading: 'S0', children: [3, 4], contents: [{id: 6, text: 'P6'}]},
+            1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: [{id: 6, text: 'P6'}]},
             2: { id: 2, parent: 0, heading: 'S2', children: [], contents: [{id: 7, text: 'P7'}]},
             3: { id: 3, parent: 1, heading: 'S3', children: [5], contents: [{id: 8, text: 'P8'}, {id: 9, text: 'P9'}]},
             4: { id: 4, parent: 1, heading: 'S4', children: [], contents: [{id: 10, text: 'P10'}]},

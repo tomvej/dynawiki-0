@@ -56,12 +56,7 @@ export default (state, payload) => {
         }
     };
     const mergeOrphans = (sourceIndex, orphans) => {
-        const addedSection = addedSections[sectionId];
-        if (addedSection) {
-            if (sourceIndex < addedSection.children.length) {
-                orphans = orphans.concat(addedSection.children.splice(sourceIndex, addedSection.children.length - sourceIndex));
-            }
-        } else {
+        if (!addedSections[sectionId]) { //added sections cannot have orphans
             const originalChildren = getChildren(sectionId);
             if (sourceIndex < originalChildren.length) {
                 merge(rootCommand, {sections: {[sectionId]: {children: {$splice: [[sourceIndex, originalChildren.length - sourceIndex]]}}}});

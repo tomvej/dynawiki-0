@@ -463,4 +463,26 @@ describe('Publish Reducer', function () {
             index: 0
         });
     });
+    it('should collapse following section when inserting lower- and then higher-level section', function () {
+        [
+            section(0, 'IS1'),
+            section(1, 'IS2')
+        ].should.update({
+            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            1: { id: 1, heading: 'S1', parent: 0, children: [2], contents: []},
+            2: { id: 2, heading: 'S2', parent: 1, children: [], contents: []},
+            nextId: 3,
+            section: 1,
+            index: 0
+        }).to({
+            0: { id: 0, heading: 'S0', children: [1, 4, 2], contents: []},
+            1: { id: 1, heading: 'S1', parent: 0, children: [3], contents: []},
+            2: { id: 2, heading: 'S2', parent: 0, children: [], contents: []},
+            3: { id: 3, heading: 'IS1', parent: 1, children: [], contents: []},
+            4: { id: 4, heading: 'IS2', parent: 0, children: [], contents: []},
+            nextId: 5,
+            section: 4,
+            index: 0
+        });
+    });
 });

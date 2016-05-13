@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Menu from './NodeMenu'
 
 import { rename } from '../actions'
 
@@ -25,7 +24,6 @@ const Header = ({heading, selected, editing, rename}) => (editing ?
         :
         <header>
             <h1>{heading}</h1>
-            {selected ? <Menu /> : null}
         </header>
 );
 

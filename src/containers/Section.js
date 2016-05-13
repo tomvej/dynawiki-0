@@ -35,6 +35,7 @@ const Section = ({section, editor, selection, changeSelection}) => {
     }
     return (
         <section onClick={changeSelection(section.id, null)}>
+            {selected ? <NodeMenu /> : null}
             <Header id={section.id}/>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}

@@ -14,6 +14,10 @@ export const changeSelection = (section, index) => ({
     }
 });
 
+export const clearSelection = () => ({
+    type: Actions.CLEAR_SELECTION
+});
+
 export const startEditing = () => ({
     type: Actions.START_EDITING
 });

@@ -1,6 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { clearSelection } from '../actions'
+
+const mapDispatchToProps = dispatch => ({
+    clearSelection: () => dispatch(clearSelection())
+});
+
 const Page = React.createClass({
     componentWillMount() {
         this.insideClick = false;
@@ -13,7 +19,7 @@ const Page = React.createClass({
     },
     onDocumentClick() {
         if(!this.insideClick) {
-            //TODO remove selection
+            this.props.clearSelection();
         }
     },
     onMouseDown() {
@@ -29,4 +35,4 @@ const Page = React.createClass({
     }
 });
 
-export default Page;
+export default connect(state => ({}), mapDispatchToProps)(Page);

@@ -410,7 +410,7 @@ describe('Publish Reducer', function () {
             4: { id: 4, parent: 1, heading: 'S4', children: [7], contents: [{id: 15, text: 'P15'}]},
             5: { id: 5, parent: 2, heading: 'S5', children: [], contents: [{id: 18, text: 'P18'}]},
             6: { id: 6, parent: 3, heading: 'S6', children: [8], contents: [{id: 13, text: 'P13'}]},
-            7: { id: 7, parent: 3, heading: 'S7', children: [], contents: [{id: 16, text: 'P16'}]},
+            7: { id: 7, parent: 4, heading: 'S7', children: [], contents: [{id: 16, text: 'P16'}]},
             8: { id: 8, parent: 6, heading: 'S8', children: [], contents: [{id: 14, text: 'P14'}]},
             nextId: 19,
             section: 3,
@@ -430,7 +430,7 @@ describe('Publish Reducer', function () {
             section: 19,
             index: 1
         });
-    })
+    });
     it('should collapse following sections when two higher-level sections are inserted', function() {
         [
             section(2, 'IS1'),

@@ -63,7 +63,7 @@ export default (state, payload) => {
             }
         } else {
             const originalChildren = getChildren(sectionId);
-            if (sourceIndex < sourceIndex) {
+            if (sourceIndex < originalChildren.length) {
                 merge(rootCommand, {sections: {[sectionId]: {children: {$splice: [[sourceIndex, originalChildren.length - sourceIndex]]}}}});
                 orphans = orphans.concat(originalChildren.splice(sourceIndex, originalChildren.length - sourceIndex));
                 childrenMap[getParent()] = originalChildren;

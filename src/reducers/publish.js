@@ -44,15 +44,15 @@ export default (state, payload) => {
         }
     };
     const getChildren = parentId => (childrenMap.hasOwnProperty(parentId) ? childrenMap[parentId] : state.sections[parentId].children.concat());
-    const addToParent = sourceIndex => {
+    const addToParent = (sourceIndex, orphans) => {
         const addedSection = addedSections[getParent()];
         if (addedSection) {
-            addedSection.children.splice(sourceIndex, 0, sectionId);
+            addedSection.children.splice(sourceIndex, 0, sectionId, ...orphans);
         } else {
             const parentId = getParent();
-            merge(rootCommand, {sections: {[parentId]: {children: {$splice: [[sourceIndex, 0, sectionId]]}}}});
+            merge(rootCommand, {sections: {[parentId]: {children: {$splice: [[sourceIndex, 0, sectionId, ...orphans]]}}}});
             childrenMap[parentId] = getChildren(parentId);
-            childrenMap[parentId].splice(sourceIndex, 0, sectionId);
+            childrenMap[parentId].splice(sourceIndex, 0, sectionId, ...orphans);
         }
     };
     const mergeOrphans = (sourceIndex, orphans) => {
@@ -80,13 +80,13 @@ export default (state, payload) => {
                 parent: sectionId,
                 heading: heading,
                 contents: [],
-                children: orphans
+                children: []
             };
-            //update children
-            orphans.forEach(updateChild(newId));
+            orphans.forEach(updateChild(sectionId)); //update children
+
             sectionId = newId;
             addedSections[newId] = newSection;
-            addToParent(sourceIndex);
+            addToParent(sourceIndex, orphans);
             index = 0;
             currentLevel++;
         } else {

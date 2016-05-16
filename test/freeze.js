@@ -9,7 +9,7 @@ describe('Deep Freeze Helper', function () {
     it('should freeze an object', function () {
         const target = {};
         deepFreeze(target);
-        target.should.be.frozen;
+        void target.should.be.frozen;
     });
     it('should freeze a nested object', function() {
         const target = {
@@ -24,8 +24,8 @@ describe('Deep Freeze Helper', function () {
             }
         };
         deepFreeze(target);
-        target.sections['1'].should.be.frozen;
-        target.sections['2'].children.should.be.frozen;
+        void target.sections['1'].should.be.frozen;
+        void target.sections['2'].children.should.be.frozen;
     });
     it('should not change an object', function () {
         const target = {

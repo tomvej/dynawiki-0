@@ -91,4 +91,10 @@ describe('Move Selection Reducer', function () {
             }, Direction.PARENT).should.deep.equal({selection: {section: {$set: 0}}});
         });
     });
+    describe('move up', function () {
+
+    });
+    describe('move down', function () {
+
+    });
 });

@@ -3,8 +3,12 @@ import { connect } from 'react-redux'
 
 import { clearSelection } from '../actions'
 
+const handleKeyPress = dispatch => event => {
+};
+
 const mapDispatchToProps = dispatch => ({
-    clearSelection: () => dispatch(clearSelection())
+    clearSelection: () => dispatch(clearSelection()),
+    onKeyPress: handleKeyPress(dispatch)
 });
 
 const Page = React.createClass({
@@ -13,11 +17,11 @@ const Page = React.createClass({
     },
     componentDidMount() {
         window.addEventListener('mousedown', this.onDocumentClick, false);
-        window.addEventListener('keypress', this.onKeyPress, false);
+        window.addEventListener('keypress', this.props.onKeyPress, false);
     },
     componentWillUnmount() {
         window.removeEventListener('mousedown', this.onDocumentClick, false);
-        window.removeEventListener('keypress', this.onKeyPress, false);
+        window.removeEventListener('keypress', this.props.onKeyPress, false);
     },
 
     onDocumentClick() {
@@ -30,8 +34,6 @@ const Page = React.createClass({
     },
     onMouseUp() {
         this.insideClick = false;
-    },
-    onKeyPress(event) {
     },
 
     render() {

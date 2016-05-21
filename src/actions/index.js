@@ -53,3 +53,7 @@ export const undo = () => ({
 export const redo = () => ({
     type: Actions.REDO
 });
+
+export const startSelection = () => ({
+    type: Actions.INIT_SELECT
+});

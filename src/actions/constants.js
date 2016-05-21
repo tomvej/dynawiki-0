@@ -9,5 +9,6 @@ export default {
     RENAME: 'RENAME',
     DELETE_SELECTION: 'DELETE_SELECTION',
     UNDO: 'UNDO',
-    REDO: 'REDO'
+    REDO: 'REDO',
+    INIT_SELECT: 'INITIALIZE_SELECTION'
 }

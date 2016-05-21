@@ -1,9 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { clearSelection } from '../actions'
+import { clearSelection, startSelection } from '../actions'
 
 const handleKeyPress = dispatch => event => {
+    switch (event.key) {
+        case ' ':
+            dispatch(startSelection());
+            break;
+    }
 };
 
 const mapDispatchToProps = dispatch => ({

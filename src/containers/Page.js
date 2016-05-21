@@ -8,6 +8,9 @@ const handleKeyPress = dispatch => event => {
         case ' ':
             dispatch(startSelection());
             break;
+        case 'Escape':
+            dispatch(clearSelection());
+            break;
     }
 };
 

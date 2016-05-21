@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { clearSelection, startSelection } from '../actions'
+import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 
 const handleKeyPress = dispatch => event => {
     switch (event.key) {
@@ -10,6 +11,15 @@ const handleKeyPress = dispatch => event => {
             break;
         case 'Escape':
             dispatch(clearSelection());
+            break;
+        case 'ArrowUp':
+            dispatch(moveSelectionUp());
+            break;
+        case 'ArrowDown':
+            dispatch(moveSelectionDown());
+            break;
+        case 'ArrowLeft':
+            dispatch(moveSelectionToParent());
             break;
     }
 };

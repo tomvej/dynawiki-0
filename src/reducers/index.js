@@ -9,6 +9,7 @@ import appendEditor from './appendEditor'
 import startRenaming from './startRenaming'
 import rename from './rename'
 import deleteSelection from './deleteSelection'
+import startSelection from './startSelection'
 
 const reducers = {
     [Actions.CLOSE_EDITOR] : closeEditor,
@@ -19,7 +20,8 @@ const reducers = {
     [Actions.APPEND_EDITOR] : appendEditor,
     [Actions.START_RENAMING] : startRenaming,
     [Actions.RENAME] : rename,
-    [Actions.DELETE_SELECTION] : deleteSelection
+    [Actions.DELETE_SELECTION] : deleteSelection,
+    [Actions.START_SELECTION] : startSelection
 };
 
 /** Set of actions which commit to undo/redo stack. */

@@ -55,5 +55,5 @@ export const redo = () => ({
 });
 
 export const startSelection = () => ({
-    type: Actions.INIT_SELECT
+    type: Actions.START_SELECTION
 });

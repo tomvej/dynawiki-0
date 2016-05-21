@@ -13,10 +13,13 @@ const Page = React.createClass({
     },
     componentDidMount() {
         window.addEventListener('mousedown', this.onDocumentClick, false);
+        window.addEventListener('keypress', this.onKeyPress, false);
     },
     componentWillUnmount() {
         window.removeEventListener('mousedown', this.onDocumentClick, false);
+        window.removeEventListener('keypress', this.onKeyPress, false);
     },
+
     onDocumentClick() {
         if(!this.insideClick) {
             this.props.clearSelection();
@@ -28,6 +31,9 @@ const Page = React.createClass({
     onMouseUp() {
         this.insideClick = false;
     },
+    onKeyPress(event) {
+    },
+
     render() {
         return <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
             {this.props.children}

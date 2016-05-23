@@ -19,9 +19,33 @@ const state = object => {
     }
 };
 
+chai.use(function (chai, utils) {
+    chai.Assertion.addMethod('in', function (sections) {
+        const state = {
+            sections,
+            selection: utils.flag(this, 'fromSelection')
+        };
+        const command = move(state, this._obj);
+        if (utils.flag(this, 'negate')) {
+            new chai.Assertion(command).to.be.null;
+        } else {
+            //FIXME
+        }
+    });
+    chai.Assertion.addChainableMethod('change', function(section, index) {
+        utils.flag(this, 'fromSelection', {section, index});
+    }, function(){});
+    chai.Assertion.addChainableMethod('to', function (section, index) {
+        utils.flag(this, 'toSelection', {section, index});
+    }, function(){});
+});
+
 describe('Move Selection Reducer', function () {
     describe('move to parent', function () {
         it('should preserve whole page selection', function () {
+            Direction.PARENT.should.not.change(0, null).in({
+                0: {id: 0, parent: null}
+            });
             void expect(move(state({
                 0: {id: 0, parent: null},
                 section: 0,

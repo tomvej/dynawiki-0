@@ -21,14 +21,14 @@ const state = object => {
 
 describe('Move Selection Reducer', function () {
     describe('move to parent', function () {
-        it('preserves whole page selection', function () {
+        it('should preserve whole page selection', function () {
             void expect(move(state({
                 0: {id: 0, parent: null},
                 section: 0,
                 index: null
             }), Direction.PARENT)).to.be.null;
         });
-        it('moves from paragraph to parent section', function () {
+        it('should move from paragraph to parent section', function () {
             move(state({
                 0: {
                     id: 0, parent: null, children: [
@@ -40,7 +40,7 @@ describe('Move Selection Reducer', function () {
                 index: 1
             }), Direction.PARENT).should.deep.equal({selection: {index: {$set: null}}});
         });
-        it('moves from section to parent section', function () {
+        it('should move from section to parent section', function () {
             move(state({
                 0: {id: 0, parent: null, contents: [1]},
                 1: {id: 1, parent: 0},
@@ -48,7 +48,7 @@ describe('Move Selection Reducer', function () {
                 index: null
             }), Direction.PARENT).should.deep.equal({selection: {section: {$set: 0}}});
         });
-        it('moves from section to parent section even with preceding paragraphs and sections', function () {
+        it('should move from section to parent section even with preceding paragraphs and sections', function () {
             move(state({
                 0: {
                     id: 0, parent: null, contents: [1, 2], children: [
@@ -72,7 +72,7 @@ describe('Move Selection Reducer', function () {
 
     });
     describe('move down', function () {
-        it('selects next paragraph in a section', function () {
+        it('should move to next paragraph in a section', function () {
             move(state({
                 0: {
                     id: 0, parent: null, contents: [
@@ -85,7 +85,7 @@ describe('Move Selection Reducer', function () {
                 index: 1
             }), Direction.DOWN).should.deep.equal({selection: {index: {$set: 2}}});
         });
-        it('selects first paragraph from section', function () {
+        it('should move from section to its first paragraph', function () {
             move(state({
                 0: {
                     id: 0, parent: null, contents: [
@@ -97,7 +97,7 @@ describe('Move Selection Reducer', function () {
                 index: null
             }), Direction.DOWN).should.deep.equal({selection: {index: {$set: 0}}});
         });
-        it('selects first child section from last paragraph', function () {
+        it('should move from last paragraph to first child section', function () {
             move(state({
                 0: {id: 0, parent: null, contents: [{id: 1}], children: [2]},
                 2: {id: 2, parent: 0},
@@ -105,7 +105,7 @@ describe('Move Selection Reducer', function () {
                 index: 1
             }), Direction.DOWN).should.deep.equal({selection: {$set: {section: 2, index: null}}});
         });
-        it('selects first child section from paragraph-less section', function () {
+        it('should move from paragraph-less section to to first child section', function () {
             move(state({
                 0: {id: 0, parent: null, children: [1]},
                 1: {id: 1, parent: 0},
@@ -113,7 +113,7 @@ describe('Move Selection Reducer', function () {
                 index: null
             }), Direction.DOWN).should.deep.equal({selection: {section: {$set: 1}}});
         });
-        it('selects next section from last paragraph', function () {
+        it('should move from last paragraph to next section', function () {
             move(state({
                 0: {id: 0, parent: null, children: [1, 3]},
                 1: {id: 1, parent: 0, contents: [{id: 2}]},
@@ -122,7 +122,7 @@ describe('Move Selection Reducer', function () {
                 index: 0
             }), Direction.DOWN).should.deep.equal({selection: {$set: {section: 3, index: null}}});
         });
-        it('selects next section from last subsubsection', function () {
+        it('should move from last subsubsection to next section', function () {
             move(state({
                 0: {id: 0, parent: null, children: [1, 2]},
                 1: {id: 1, parent: 0, children: [3]},
@@ -133,7 +133,7 @@ describe('Move Selection Reducer', function () {
                 index: null
             }), Direction.DOWN).should.deep.equal({selection: {section: {$set: 2}}});
         });
-        it('selects next section from last subsubsection paragraph', function () {
+        it('should move from last subsubsection paragraph to next section', function () {
             move(state({
                 0: {id: 0, parent: null, children: [1, 2]},
                 1: {id: 1, parent: 0, children: [3]},

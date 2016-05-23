@@ -18,8 +18,8 @@ const state = object => {
     delete object.index;
     return {
         sections: object,
-        nextId: nextId,
-        editor: editor
+        nextId,
+        editor
     };
 };
 
@@ -52,12 +52,12 @@ describe('Publish Reducer', function () {
             nextId: 1,
             section: 0,
             index: 0,
-            0: { id: 0, heading: 'H1', contents: [], children: []}
+            0: { id: 0, parent: null, heading: 'H1', contents: [], children: []}
         }).to({
             nextId: 2,
             section: 0,
             index: 1,
-            0: { id: 0, heading: 'H1', contents: [{ id: 1, text: 'Paragraph'}], children: []}
+            0: { id: 0, parent: null, heading: 'H1', contents: [{ id: 1, text: 'Paragraph'}], children: []}
         });
     });
     it('should insert paragraph', function() {
@@ -67,7 +67,7 @@ describe('Publish Reducer', function () {
             nextId: 3,
             section: 0,
             index: 1,
-            0: { id: 0, heading: 'H1', children: [], contents: [
+            0: { id: 0, parent: null, heading: 'H1', children: [], contents: [
                 {id: 1, text: 'First paragraph'},
                 {id: 2, text: 'Second paragraph'}
             ]}
@@ -75,7 +75,7 @@ describe('Publish Reducer', function () {
             nextId: 4,
             section: 0,
             index: 2,
-            0: { id: 0, heading: 'H1', children: [], contents: [
+            0: { id: 0, parent: null, heading: 'H1', children: [], contents: [
                 { id: 1, text: 'First paragraph'},
                 { id: 3, text: 'Paragraph'},
                 { id: 2, text: 'Second paragraph'}
@@ -89,12 +89,12 @@ describe('Publish Reducer', function () {
             nextId: 1,
             section: 0,
             index: 0,
-            0: { id: 0, heading: 'Section', children: [], contents: []}
+            0: { id: 0, parent: null, heading: 'Section', children: [], contents: []}
         }).to({
             nextId: 2,
             section: 1,
             index: 0,
-            0: { id: 0, heading: 'Section', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'Section', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'Subsection', children: [], contents: []}
         });
     });
@@ -106,12 +106,12 @@ describe('Publish Reducer', function () {
             nextId: 2,
             section: 0,
             index: 1,
-            0: { id: 0, heading: 'Section', children: [], contents: [{ id: 1, text: 'Paragraph'}]}
+            0: { id: 0, parent: null, heading: 'Section', children: [], contents: [{ id: 1, text: 'Paragraph'}]}
         }).to({
             nextId: 4,
             section: 2,
             index: 1,
-            0: { id: 0, heading: 'Section', children: [2], contents: [{ id: 1, text: 'Paragraph'}]},
+            0: { id: 0, parent: null, heading: 'Section', children: [2], contents: [{ id: 1, text: 'Paragraph'}]},
             2: { id: 2, parent: 0, heading: 'Subsection', children: [], contents: [{ id: 3, text: 'Subsection paragraph'}]}
         });
     });
@@ -119,7 +119,7 @@ describe('Publish Reducer', function () {
         [
             section(0, 'Another subsection')
         ].should.update({
-            0: { id: 0, heading: 'Main section', children: [], contents: [
+            0: { id: 0, parent: null, heading: 'Main section', children: [], contents: [
                 {id: 1, text: 'First paragraph'},
                 { id: 2, text: 'Second paragraph'}
             ]},
@@ -127,7 +127,7 @@ describe('Publish Reducer', function () {
             section: 0,
             index: 1
         }).to({
-            0: { id: 0, heading: 'Main section', children: [3], contents: [{id: 1, text: 'First paragraph'}]},
+            0: { id: 0, parent: null, heading: 'Main section', children: [3], contents: [{id: 1, text: 'First paragraph'}]},
             3: { id: 3, parent: 0, heading: 'Another subsection', children: [], contents: [{id: 2, text: 'Second paragraph'}]},
             nextId: 4,
             section: 3,
@@ -139,7 +139,7 @@ describe('Publish Reducer', function () {
             section(0, 'Just a Section'),
             paragraph('Some kind of a paragraph')
         ].should.update({
-            0: { id: 0, heading: 'New page', children: [], contents: [
+            0: { id: 0, parent: null, heading: 'New page', children: [], contents: [
                 {id: 1, text: 'First paragraph'},
                 { id: 2, text: 'Second paragraph'}
             ]},
@@ -147,7 +147,7 @@ describe('Publish Reducer', function () {
             section: 0,
             index: 1
         }).to({
-            0: { id: 0, heading: 'New page', children: [3], contents: [{id: 1, text: 'First paragraph'}]},
+            0: { id: 0, parent: null, heading: 'New page', children: [3], contents: [{id: 1, text: 'First paragraph'}]},
             3: { id: 3, parent: 0, heading: 'Just a Section', children: [], contents: [
                 { id: 4, text: 'Some kind of a paragraph'},
                 { id: 2, text: 'Second paragraph'}
@@ -162,13 +162,13 @@ describe('Publish Reducer', function () {
             section(0, 'Subsection'),
             paragraph('Subparagraph')
         ].should.update({
-            0: { id: 0, heading: 'Main Section', children: [1], contents: [{id: 2, text: 'I am a paragraph'}]},
+            0: { id: 0, parent: null, heading: 'Main Section', children: [1], contents: [{id: 2, text: 'I am a paragraph'}]},
             1: { id: 1, parent: 0, heading: 'Another Subsection', children: [], contents: [{id: 3, text: 'Subsection paragraph'}]},
             nextId: 4,
             section: 0,
             index: 1
         }).to({
-            0: { id: 0, heading: 'Main Section', children: [4, 1], contents: [{id: 2, text: 'I am a paragraph'}],},
+            0: { id: 0, parent: null, heading: 'Main Section', children: [4, 1], contents: [{id: 2, text: 'I am a paragraph'}],},
             1: { id: 1, parent: 0, heading: 'Another Subsection', children: [], contents: [{id: 3, text: 'Subsection paragraph'}]},
             4: { id: 4, parent: 0, heading: 'Subsection', children: [], contents: [{id: 5, text: 'Subparagraph'}]},
             nextId: 6,
@@ -181,7 +181,7 @@ describe('Publish Reducer', function () {
             section(1, 'IS1'),
             paragraph('IP1')
         ].should.update({
-            0: { id: 0, heading: 'S1', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S1', children: [1], contents: []},
             1: { id: 1, parent: 0, children: [], contents: [
                 {id: 2, text: 'P1'},
                 {id: 3, text: 'P2'}
@@ -190,7 +190,7 @@ describe('Publish Reducer', function () {
             section: 1,
             index: 1
         }).to({
-            0: { id: 0, heading: 'S1', children: [1, 4], contents: []},
+            0: { id: 0, parent: null, heading: 'S1', children: [1, 4], contents: []},
             1: { id: 1, parent: 0, children: [], contents: [{id:2, text: 'P1'}]},
             4: { id: 4, parent: 0, heading: 'IS1', children: [], contents: [
                 {id: 5, text: 'IP1'},
@@ -214,12 +214,12 @@ describe('Publish Reducer', function () {
             paragraph('P3'),
             section(0, 'S7')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [], contents: []},
             nextId: 1,
             section: 0,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 10], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 10], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [3, 5], contents: [{id: 2, text: 'P1'}]},
             3: { id: 3, parent: 1, heading: 'S2', children: [], contents: [{id: 4, text: 'P2'}]},
             5: { id: 5, parent: 1, heading: 'S3', children: [6, 8], contents: []},
@@ -236,14 +236,14 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             nextId: 3,
             section: 2,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 3], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 3], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 0, heading: 'IS', children: [], contents: []},
@@ -256,14 +256,14 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: [{id: 3, text: 'paragraph'}]},
             nextId: 4,
             section: 2,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 4], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 4], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             4: {
@@ -282,7 +282,7 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [3], contents: []},
             3: { id: 3, parent: 2, heading: 'S3', children: [], contents: []},
@@ -290,7 +290,7 @@ describe('Publish Reducer', function () {
             section: 2,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 4, 3], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 4, 3], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 0, heading: 'S3', children: [], contents: []},
@@ -304,7 +304,7 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [3], contents: []},
             3: { id: 3, parent: 2, heading: 'S3', children: [], contents: [{id: 4, text: 'Look at me! I am a paragraph!'}]},
@@ -312,7 +312,7 @@ describe('Publish Reducer', function () {
             section: 2,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 5, 3], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 5, 3], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 0, heading: 'S3', children: [], contents: [{id: 4, text: 'Look at me! I am a paragraph!'}]},
@@ -326,7 +326,7 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [3], contents: []},
             3: { id: 3, parent: 2, heading: 'S3', children: [4], contents: []},
@@ -335,7 +335,7 @@ describe('Publish Reducer', function () {
             section: 2,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 5, 3], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 5, 3], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [2], contents: []},
             2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 0, heading: 'S3', children: [4], contents: []},
@@ -350,7 +350,7 @@ describe('Publish Reducer', function () {
        [
            section(2, 'IS')
        ].should.update({
-           0: { id: 0, heading: 'S0', children: [1, 2], contents: []},
+           0: { id: 0, parent: null, heading: 'S0', children: [1, 2], contents: []},
            1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: []},
            2: { id: 2, parent: 1, heading: 'S2', children: [], contents: []},
            3: { id: 3, parent: 1, heading: 'S3', children: [5], contents: []},
@@ -360,7 +360,7 @@ describe('Publish Reducer', function () {
            section: 3,
            index: 0
        }).to({
-           0: { id: 0, heading: 'S0', children: [1, 6, 5, 4, 2], contents: []},
+           0: { id: 0, parent: null, heading: 'S0', children: [1, 6, 5, 4, 2], contents: []},
            1: { id: 1, parent: 0, heading: 'S1', children: [3], contents: []},
            2: { id: 2, parent: 0, heading: 'S2', children: [], contents: []},
            3: { id: 3, parent: 1, heading: 'S3', children: [], contents: []},
@@ -376,7 +376,7 @@ describe('Publish Reducer', function () {
         [
             section(2, 'IS')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1, 2], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 2], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: [{id: 6, text: 'P6'}]},
             2: { id: 2, parent: 0, heading: 'S2', children: [], contents: [{id: 7, text: 'P7'}]},
             3: { id: 3, parent: 1, heading: 'S3', children: [5], contents: [{id: 8, text: 'P8'}, {id: 9, text: 'P9'}]},
@@ -386,7 +386,7 @@ describe('Publish Reducer', function () {
             section: 3,
             index: 1
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 12, 5, 4, 2], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 12, 5, 4, 2], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [3], contents: [{id: 6, text: 'P6'}]},
             2: { id: 2, parent: 0, heading: 'S2', children: [], contents: [{id: 7, text: 'P7'}]},
             3: { id: 3, parent: 1, heading: 'S3', children: [], contents: [{id: 8, text: 'P8'}]},
@@ -403,7 +403,7 @@ describe('Publish Reducer', function () {
             section(2, 'IS'),
             paragraph('IP')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1, 2], contents: [{id: 9, text: 'P9'}]},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 2], contents: [{id: 9, text: 'P9'}]},
             1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: [{id: 10, text: 'P10'}]},
             2: { id: 2, parent: 0, heading: 'S2', children: [5], contents: [{id: 17, text: 'P17'}]},
             3: { id: 3, parent: 1, heading: 'S3', children: [6], contents: [{id: 11, text: 'P11'}, {id: 12, text: 'P12'}]},
@@ -416,7 +416,7 @@ describe('Publish Reducer', function () {
             section: 3,
             index: 1
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 19, 6, 4, 2], contents: [{id: 9, text: 'P9'}]},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 19, 6, 4, 2], contents: [{id: 9, text: 'P9'}]},
             1: { id: 1, parent: 0, heading: 'S1', children: [3], contents: [{id: 10, text: 'P10'}]},
             2: { id: 2, parent: 0, heading: 'S2', children: [5], contents: [{id: 17, text: 'P17'}]},
             3: { id: 3, parent: 1, heading: 'S3', children: [], contents: [{id: 11, text: 'P11'}]},
@@ -436,7 +436,7 @@ describe('Publish Reducer', function () {
             section(2, 'IS1'),
             section(3, 'IS2')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1, 2], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 2], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [3, 4], contents: []},
             2: { id: 2, parent: 0, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 1, heading: 'S3', children: [5, 6], contents: []},
@@ -448,7 +448,7 @@ describe('Publish Reducer', function () {
             section: 5,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 9, 7, 6, 4, 2], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 9, 7, 6, 4, 2], contents: []},
             1: { id: 1, parent: 0, heading: 'S1', children: [3, 8], contents: []},
             2: { id: 2, parent: 0, heading: 'S2', children: [], contents: []},
             3: { id: 3, parent: 1, heading: 'S3', children: [5], contents: []},
@@ -468,14 +468,14 @@ describe('Publish Reducer', function () {
             section(0, 'IS1'),
             section(1, 'IS2')
         ].should.update({
-            0: { id: 0, heading: 'S0', children: [1], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1], contents: []},
             1: { id: 1, heading: 'S1', parent: 0, children: [2], contents: []},
             2: { id: 2, heading: 'S2', parent: 1, children: [], contents: []},
             nextId: 3,
             section: 1,
             index: 0
         }).to({
-            0: { id: 0, heading: 'S0', children: [1, 4, 2], contents: []},
+            0: { id: 0, parent: null, heading: 'S0', children: [1, 4, 2], contents: []},
             1: { id: 1, heading: 'S1', parent: 0, children: [3], contents: []},
             2: { id: 2, heading: 'S2', parent: 0, children: [], contents: []},
             3: { id: 3, heading: 'IS1', parent: 1, children: [], contents: []},

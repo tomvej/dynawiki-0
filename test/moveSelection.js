@@ -78,10 +78,57 @@ describe('Move Selection Reducer', function () {
                 0: {id: 0, parent: null},
             });
         });
-        it('should move to previous paragraph in a seciton');
-        it('should move from first paragraph to parent section');
-        it('should move from first subsection to first paragraph of parent section');
-        it('should move from first subsection to paragraph-less parent section');
+        it('should move to previous paragraph in a section', function () {
+            Direction.UP.should.change(0, 2).into(0, 1).in({
+               0: {
+                   id: 0, parent: null, contents: [
+                       {id: 1},
+                       {id: 2},
+                       {id: 3},
+                       {id: 4}
+                   ]
+               }
+            });
+        });
+        it('should move from first paragraph to parent section', function () {
+            Direction.UP.should.change(0, 0).into(0, null).in({
+                0: {
+                    id: 0, parent: null, contents: [
+                        {id: 1},
+                        {id: 2}
+                    ]
+                }
+            });
+        });
+        it('should move from first subsection to last paragraph of parent section', function () {
+            Direction.UP.should.change(1, null).into(0, 2).in({
+                0: {
+                    id: 0, parent: null, children: [1, 2], contents: [
+                        {id: 3},
+                        {id: 4},
+                        {id: 5}
+                    ]
+                },
+                1: {
+                    id: 1, parent: 0, contents: [
+                        {id: 6},
+                        {id: 7}
+                    ]
+                },
+                2: {
+                    id: 2, parent: 0, contents: [
+                        {id: 8}
+                    ]
+                }
+            });
+        });
+        it('should move from first subsection to paragraph-less parent section', function () {
+            Direction.UP.should.change(1, null).into(0, null).in({
+                0: {id: 0, parent: null, children: [1, 2]},
+                1: {id: 1, parent: 0, contents: [{id: 3}, {id: 4}]},
+                2: {id: 2, parent: 0, contents: [{id: 5}]}
+            });
+        });
         it('should move from section to previous empty section');
         it('should move from section to last paragraph of previous section');
         it('should move from section to last empty subsection of previous section');

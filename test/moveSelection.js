@@ -144,5 +144,34 @@ describe('Move Selection Reducer', function () {
                 index: 0
             }), Direction.DOWN).should.deep.equal({selection: {$set: {section: 2, index: null}}});
         });
+        it('should not move from last paragraph without subsection', function () {
+            void expect(move(state({
+                0: {
+                    id: 0, parent: null, contents: [
+                        {id: 1},
+                        {id: 2},
+                        {id: 3}
+                    ]
+                },
+                section: 0,
+                index: 2
+            }), Direction.DOWN)).to.be.null;
+        });
+        it('should not move from last subsection', function () {
+            void expect(move(state({
+                0: {id: 0, parent: null, children: [1]},
+                1: {id: 1, parent: 0},
+                section: 1,
+                index: null
+            }), Direction.DOWN)).to.be.null;
+        });
+        it('should not move from last paragraph of subsection', function () {
+            void expect(move(state({
+                0: {id: 0, parent: null, children: [1]},
+                1: {id: 1, parent: 0, contents: [{id: 2}]},
+                section: 1,
+                index: 1
+            }), Direction.DOWN)).to.be.null;
+        });
     });
 });

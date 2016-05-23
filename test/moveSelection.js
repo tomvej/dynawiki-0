@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai'
+import chai from 'chai'
 import 'babel-polyfill'
 
 import move from '../src/reducers/moveSelection'
@@ -6,19 +6,6 @@ import update from '../src/reducers/utils/update'
 import { Direction } from '../src/actions/moveSelection'
 
 chai.should();
-
-const state = object => {
-    const selection = {
-        section: object.section,
-        index: object.index
-    };
-    delete object.section;
-    delete object.index;
-    return {
-        sections: object,
-        selection
-    }
-};
 
 chai.use(function (chai, utils) {
     const expect = object => new chai.Assertion(object);

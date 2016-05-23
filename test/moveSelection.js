@@ -2,6 +2,7 @@ import chai, { expect } from 'chai'
 import 'babel-polyfill'
 
 import move from '../src/reducers/moveSelection'
+import update from '../src/reducers/utils/update'
 import { Direction } from '../src/actions/moveSelection'
 
 chai.should();
@@ -20,6 +21,7 @@ const state = object => {
 };
 
 chai.use(function (chai, utils) {
+    const expect = object => new chai.Assertion(object);
     chai.Assertion.addMethod('in', function (sections) {
         const state = {
             sections,
@@ -27,17 +29,19 @@ chai.use(function (chai, utils) {
         };
         const command = move(state, this._obj);
         if (utils.flag(this, 'negate')) {
-            new chai.Assertion(command).to.be.null;
+            void expect(command).to.be.null;
         } else {
-            //FIXME
+            expect(command).to.have.keys('selection');
+            const result = update(state.selection, command.selection).state;
+            expect(result).to.deep.equal(utils.flag(this, 'toSelection'));
         }
     });
     chai.Assertion.addChainableMethod('change', function(section, index) {
         utils.flag(this, 'fromSelection', {section, index});
     }, function(){});
-    chai.Assertion.addChainableMethod('to', function (section, index) {
+    chai.Assertion.addMethod('into', function (section, index) {
         utils.flag(this, 'toSelection', {section, index});
-    }, function(){});
+    });
 });
 
 describe('Move Selection Reducer', function () {
@@ -46,23 +50,16 @@ describe('Move Selection Reducer', function () {
             Direction.PARENT.should.not.change(0, null).in({
                 0: {id: 0, parent: null}
             });
-            void expect(move(state({
-                0: {id: 0, parent: null},
-                section: 0,
-                index: null
-            }), Direction.PARENT)).to.be.null;
         });
         it('should move from paragraph to parent section', function () {
-            move(state({
+            Direction.PARENT.should.change(0, 1).into(0, null).in({
                 0: {
                     id: 0, parent: null, children: [
                         {id: 1},
                         {id: 2}
                     ]
-                },
-                section: 0,
-                index: 1
-            }), Direction.PARENT).should.deep.equal({selection: {index: {$set: null}}});
+                }
+            });
         });
         it('should move from section to parent section', function () {
             move(state({

@@ -23,9 +23,9 @@ chai.use(function (chai, utils) {
             expect(result).to.deep.equal(utils.flag(this, 'toSelection'));
         }
     });
-    chai.Assertion.addMethod('change', function(section, index) {
+    chai.Assertion.addChainableMethod('change', function(section, index) {
         utils.flag(this, 'fromSelection', {section, index});
-    });
+    }, function(){});
     chai.Assertion.addMethod('into', function (section, index) {
         utils.flag(this, 'toSelection', {section, index});
     });

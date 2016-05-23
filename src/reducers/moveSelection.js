@@ -12,6 +12,9 @@ const moveToParent = state => {
         return {selection: {index: {$set: null}}};
     }
 };
+const moveUp = state => null;
+
+const moveDown = state => null;
 
 export default (state, payload) => {
     if (state.selection === null) {
@@ -19,7 +22,9 @@ export default (state, payload) => {
     }
 
     return {
-        [Direction.PARENT]: moveToParent
+        [Direction.PARENT]: moveToParent,
+        [Direction.UP]: moveUp,
+        [Direction.DOWN]: moveDown
     }[payload](state);
 
 }

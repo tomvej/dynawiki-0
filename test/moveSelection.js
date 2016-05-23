@@ -69,7 +69,22 @@ describe('Move Selection Reducer', function () {
         });
     });
     describe('move up', function () {
-
+        it('should not move from first section', function () {
+            void expect(move(state({
+                0: {id: 0, parent: null},
+                section: 0,
+                index: null
+            }), Direction.UP)).to.be.null;
+        });
+        it('should move to previous paragraph in a seciton');
+        it('should move from first paragraph to parent section');
+        it('should move from first subsection to first paragraph of parent section');
+        it('should move from first subsection to paragraph-less parent section');
+        it('should move from section to previous empty section');
+        it('should move from section to last paragraph of previous section');
+        it('should move from section to last empty subsection of previous section');
+        it('should move from section to last paragraph of previous subsection');
+        it('should move from section to last paragraph of previous subsubsection');
     });
     describe('move down', function () {
         it('should move to next paragraph in a section', function () {

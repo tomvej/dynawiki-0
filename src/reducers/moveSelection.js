@@ -14,7 +14,32 @@ const moveToParent = state => {
 };
 const moveUp = state => null;
 
-const moveDown = state => null;
+const moveDown = state => {
+    const getFirstChild = section => {
+        const children = state.sections[section].children;
+        if (children.length) {
+            return children[0];
+        } else {
+            return getNextSibling(section);
+        }
+    };
+    const getNextSibling = section => {
+        
+    };
+    const {section, index} = state.selection;
+
+    if (index === null) {
+        if (state.sections[section].contents.length) {
+            return {selection: {index: {$set: 0}}};
+        } else {
+            return {selection: {section: {$set: getFirstChild(section)}}};
+        }
+    } else if (index < state.sections[section].contents.length - 1) {
+        return {selection: {index: {$set: index + 1}}};
+    } else {
+        return {selection: {$set: {section: getFirstChild(section), index: null}}};
+    }
+};
 
 export default (state, payload) => {
     if (state.selection === null) {

@@ -129,11 +129,59 @@ describe('Move Selection Reducer', function () {
                 2: {id: 2, parent: 0, contents: [{id: 5}]}
             });
         });
-        it('should move from section to previous empty section');
-        it('should move from section to last paragraph of previous section');
-        it('should move from section to last empty subsection of previous section');
-        it('should move from section to last paragraph of previous subsection');
-        it('should move from section to last paragraph of previous subsubsection');
+        it('should move from section to previous empty section', function () {
+            Direction.UP.should.change(3, null).into(2, null).in({
+                0: {id: 0, parent: null, children: [1, 2, 3]},
+                1: {id: 1, parent: 0, children: [4], contents: [{id: 5}]},
+                2: {id: 2, parent: 0},
+                3: {id: 3, parent: 0, children: [6], contents: [{id: 7}]},
+                4: {id: 4, parent: 1},
+                6: {id: 6, parent: 3}
+            })
+        });
+        it('should move from section to last paragraph of previous section', function () {
+            Direction.UP.should.change(2, null).into(1, 1).in({
+                0: {id: 0, parent: null, children: [1, 2]},
+                1: {
+                    id: 1, parent: 0, contents: [
+                        {id: 3},
+                        {id: 4}
+                    ]
+                },
+                2: {id: 2, parent: 0, children: [6], contents: [{id: 5}]},
+                6: {id: 6, parent: 2}
+            });
+        });
+        it('should move from section to last empty subsection of previous section', function () {
+            Direction.UP.should.change(2, null).into(4, null).in({
+                0: {id: 0, parent: null, children: [1, 2]},
+                1: {id: 1, parent: 0, children: [3, 4], contents: [{id: 5}]},
+                2: {id: 2, parent: 0, contents: [{id: 6}, {id: 7}]},
+                3: {id: 3, parent: 1, contents: [{id: 8}]},
+                4: {id: 4, parent: 1}
+            });
+        });
+        it('should move from section to last paragraph of previous subsection', function () {
+            Direction.UP.should.change(2, null).into(4, 1).in({
+                0: {id: 0, parent: null, children: [1, 2]},
+                1: {id: 1, parent: 0, children: [3, 4], contents: [{id: 5}]},
+                2: {id: 2, parent: 0, contents: [{id: 6}, {id: 7}]},
+                3: {id: 3, parent: 1, contents: [{id: 8}]},
+                4: {id: 4, parent: 1, contents: [{id: 9}, {id: 10}]}
+            });
+        });
+        it('should move from section to last paragraph of previous subsubsection', function () {
+            Direction.UP.should.change(2, null).into(6, 2).in({
+                0: {id: 0, parent: null, children: [1, 2]},
+                1: {id: 1, parent: 0, children: [3, 4]},
+                2: {id: 2, parent: 0, contents: [{id: 13}], children: [14]},
+                3: {id: 3, parent: 1, contents: [{id: 11}, {id: 12}]},
+                4: {id: 4, parent: 1, children: [5, 6]},
+                5: {id: 5, parent: 4, contents: [{id: 10}]},
+                6: {id: 6, parent: 4, contents: [{id: 7}, {id: 8}, {id: 9}]},
+                14: {id: 14, parent: 2, contents: [{id: 15}]}
+            });
+        });
     });
     describe('move down', function () {
         it('should move to next paragraph in a section', function () {

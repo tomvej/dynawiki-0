@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 
-import initial from './initial'
+import initial from './text'
 import wikiApp from './reducers'
 import Page from './containers/Page'
 import Section from './containers/Section'

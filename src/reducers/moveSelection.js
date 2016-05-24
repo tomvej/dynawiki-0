@@ -39,12 +39,14 @@ const moveDown = state => {
         if (state.sections[section].contents.length) {
             return {selection: {index: {$set: 0}}};
         } else {
-            return {selection: {section: {$set: getFirstChild(section)}}};
+            const newSection = getFirstChild(section);
+            return newSection !== null ? {selection: {section: {$set: newSection}}} : null;
         }
     } else if (index < state.sections[section].contents.length - 1) {
         return {selection: {index: {$set: index + 1}}};
     } else {
-        return {selection: {$set: {section: getFirstChild(section), index: null}}};
+        const newSection = getFirstChild(section);
+        return newSection !== null ? {selection: {$set: {section: newSection, index: null}}} : null;
     }
 };
 

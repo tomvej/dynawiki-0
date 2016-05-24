@@ -10,6 +10,14 @@ chai.should();
 chai.use(function (chai, utils) {
     const expect = object => new chai.Assertion(object);
     chai.Assertion.addMethod('in', function (sections) {
+        Object.getOwnPropertyNames(sections).forEach(section => {
+            if (!sections[section].contents) {
+                sections[section].contents = [];
+            }
+            if(!sections[section].children) {
+                sections[section].children = [];
+            }
+        });
         const state = {
             sections,
             selection: utils.flag(this, 'fromSelection')

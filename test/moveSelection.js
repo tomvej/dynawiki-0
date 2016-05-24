@@ -14,7 +14,7 @@ chai.use(function (chai, utils) {
             if (!sections[section].contents) {
                 sections[section].contents = [];
             }
-            if(!sections[section].children) {
+            if (!sections[section].children) {
                 sections[section].children = [];
             }
         });
@@ -264,9 +264,7 @@ describe('Move Selection Reducer', function () {
         it('should not move from last subsection', function () {
             Direction.DOWN.should.not.change(1, null).in({
                 0: {id: 0, parent: null, children: [1]},
-                1: {id: 1, parent: 0},
-                section: 1,
-                index: null
+                1: {id: 1, parent: 0}
             });
         });
         it('should not move from last paragraph of subsection', function () {

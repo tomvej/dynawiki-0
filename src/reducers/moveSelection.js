@@ -24,7 +24,14 @@ const moveDown = state => {
         }
     };
     const getNextSibling = section => {
-        
+        const parent = state.sections[section].parent;
+        if (parent === null) {
+            return null;
+        }
+
+        const parentChildren = state.sections[parent].children;
+        const index = parentChildren.indexOf(section) + 1;
+        return index < parentChildren.length ? parentChildren[index] : getNextSibling(parent);
     };
     const {section, index} = state.selection;
 

@@ -12,7 +12,31 @@ const moveToParent = state => {
         return {selection: {index: {$set: null}}};
     }
 };
-const moveUp = state => null;
+const moveUp = state => {
+    const getRightmostChild = section => {
+        const children = state.sections[section].children;
+        return children.length ? getRightmostChild(children[children.length - 1]) : section;
+    };
+    const {section, index} = state.selection;
+    if (index !== null) {
+        return {selection: {index: {$set: index > 0 ? index - 1 : null}}};
+    } else {
+        const parent = state.sections[section].parent;
+        if (parent === null) {
+            return null;
+        } else {
+            var parentChildren = state.sections[parent].children;
+            const indexInParent = parentChildren.indexOf(section);
+            const newSection = indexInParent ? getRightmostChild(parentChildren[indexInParent - 1]) : parent;
+            const newSectionContentsLength = state.sections[newSection].contents.length;
+            if (newSectionContentsLength) {
+                return {selection: {$set: {section: newSection, index: newSectionContentsLength - 1}}};
+            } else {
+                return {selection: {section: {$set: newSection}}};
+            }
+        }
+    }
+};
 
 const moveDown = state => {
     const getFirstChildOrSibling = section => {

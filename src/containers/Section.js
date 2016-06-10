@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Editor from './Editor'
-import NodeMenu from './NodeMenu'
+import NodeAnchor from './NodeAnchor'
 import Header from './Header'
 import { changeSelection } from '../actions'
 
@@ -22,7 +22,7 @@ const Paragraph = (id, selected, changeSelection, text) => (
     <p key={id}
        onClick={changeSelection}>
         {selected ? <span id="selection"/> : null}
-        {selected ? <NodeMenu /> : null}
+        {selected ? <NodeAnchor /> : null}
         {text}
     </p>
 );
@@ -37,7 +37,7 @@ const Section = ({section, editor, selection, changeSelection}) => {
     return (
         <section onClick={changeSelection(section.id, null)}>
             {selected ? <span id="selection" /> : null}
-            {selected ? <NodeMenu /> : null}
+            {selected ? <NodeAnchor /> : null}
             <Header id={section.id}/>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}

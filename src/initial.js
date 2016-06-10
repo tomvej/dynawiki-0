@@ -19,5 +19,6 @@ export default {
         redo: [],
         undoCommand: {},
         redoCommand: {}
-    }
+    },
+    popup: null
 };

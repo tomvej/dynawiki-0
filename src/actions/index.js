@@ -60,5 +60,5 @@ export const startSelection = () => ({
 
 export const showPopup = (x, y) => ({
     type: Actions.SHOW_POPUP,
-    payload: x && y ? {x, y} : null
+    payload: x && y ? {x, y} : {}
 });

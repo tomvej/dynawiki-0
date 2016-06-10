@@ -16,8 +16,10 @@ const mapDispatchToProps = dispatch => ({
         dispatch(changeSelection(section, index));
         event.stopPropagation();
     },
-    showPopup: event => {
-        dispatch(showPopup(event.clientX, event.clientY));
+    showPopup: (section, index) => event => {
+        dispatch(changeSelection(section, index));
+        dispatch(showPopup(event.pageX, event.pageY));
+        event.preventDefault();
         event.stopPropagation();
     }
 });
@@ -35,12 +37,12 @@ const Paragraph = (id, selected, changeSelection, text, showPopup) => (
 const Section = ({section, editor, selection, changeSelection, showPopup}) => {
     let selected = selection !== null && section.id === selection.section && selection.index === null;
     let parSelected = index => (selection !== null && section.id === selection.section && index === selection.index);
-    let pars = section.contents.map(({id, text}, index) => Paragraph(id, parSelected(index), changeSelection(section.id, index), text, showPopup));
+    let pars = section.contents.map(({id, text}, index) => Paragraph(id, parSelected(index), changeSelection(section.id, index), text, showPopup(section.id, index)));
     if (editor !== null) {
         pars.splice(editor, 0, <Editor key="editor"/>);
     }
     return (
-        <section onClick={changeSelection(section.id, null)} onContextMenu={showPopup}>
+        <section onClick={changeSelection(section.id, null)} onContextMenu={showPopup(section.id, null)}>
             {selected ? <span id="selection" /> : null}
             {selected ? <NodeMenu /> : null}
             <Header id={section.id}/>

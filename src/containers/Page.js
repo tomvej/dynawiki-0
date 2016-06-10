@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { clearSelection, startSelection } from '../actions'
 import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 
+import Popup from './NodePopup'
+
 const handleKeyPress = dispatch => event => {
     switch (event.key) {
         case ' ':
@@ -23,6 +25,10 @@ const handleKeyPress = dispatch => event => {
             break;
     }
 };
+
+const mapStateToProps = state => ({
+    popupDisplayed: !!state.popup && state.popup.x && state.popup.y
+});
 
 const mapDispatchToProps = dispatch => ({
     clearSelection: () => dispatch(clearSelection()),
@@ -57,8 +63,9 @@ const Page = React.createClass({
     render() {
         return <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
             {this.props.children}
+            {this.props.popupDisplayed ? <Popup/> : null}
         </div>;
     }
 });
 
-export default connect(state => ({}), mapDispatchToProps)(Page);
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

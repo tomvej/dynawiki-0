@@ -94,3 +94,10 @@ header textarea {
 #redo {
     float: right;
 }
+
+#node-popup {
+    position: absolute;
+    border: 1px black solid;
+    z-index: 1;
+    background-color: #FFFFFF;
+}

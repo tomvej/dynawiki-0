@@ -19,13 +19,16 @@ const mapDispatchToProps = dispatch => ({
     deleteSelection: catchAction(dispatch, deleteSelection)
 });
 
-const Menu = ({startEditing, appendEditor, startRenaming, onSection, deleteSelection}) =>
-    <span id="node-menu">
-        <a href="" onClick={appendEditor}>Append</a>
-        <a href="" onClick={startEditing}>Edit</a>
-        {onSection ? <a href="" onClick={startRenaming}>Rename</a> : null}
-        <a href="" onClick={deleteSelection}>Delete</a>
-    </span>;
+const Menu = React.createClass({
+    render() {
+        return <span id="node-menu">
+            <a href="" onClick={this.props.appendEditor}>Append</a>
+            <a href="" onClick={this.props.startEditing}>Edit</a>
+            {this.props.onSection && <a href="" onClick={this.props.startRenaming}>Rename</a>}
+            <a href="" onClick={this.props.deleteSelection}>Delete</a>
+        </span>;
+    }
+});
 
 export default connect(
     mapStateToProps,

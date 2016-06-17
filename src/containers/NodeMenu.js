@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { startEditing, appendEditor, startRenaming, deleteSelection } from '../actions'
+import { startEditing, appendEditor, startRenaming, deleteSelection, popup } from '../actions'
 
 const mapStateToProps = state => ({
     onSection: state.selection.index === null
@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
 const catchAction = (dispatch, generator) => event => {
     event.stopPropagation();
     event.preventDefault();
+    dispatch(popup(false));
     dispatch(generator(event));
 };
 
@@ -16,10 +17,17 @@ const mapDispatchToProps = dispatch => ({
     startEditing: catchAction(dispatch, startEditing),
     appendEditor: catchAction(dispatch, appendEditor),
     startRenaming: catchAction(dispatch, startRenaming),
-    deleteSelection: catchAction(dispatch, deleteSelection)
+    deleteSelection: catchAction(dispatch, deleteSelection),
+    hide: () => {dispatch(popup(false));}
 });
 
 const Menu = React.createClass({
+    componentDidMount() {
+        window.addEventListener('mousedown', this.props.hide);
+    },
+    componentWillUnmount() {
+        window.removeEventListener('mousedown', this.props.hide);
+    },
     render() {
         return <span id="node-menu">
             <a href="" onClick={this.props.appendEditor}>Append</a>

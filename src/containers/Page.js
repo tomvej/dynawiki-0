@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import OutsideClickWrapper from './util/OutsideClickWrapper'
+import OutsideClickWrapper from '../components/OutsideClickWrapper'
 import { clearSelection, startSelection } from '../actions'
 import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 

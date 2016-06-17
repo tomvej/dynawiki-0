@@ -35,7 +35,7 @@ class OutsideClickWrapper extends React.Component {
 }
 
 OutsideClickWrapper.propTypes = {
-    onOutsideClick: React.PropTypes.func
+    onOutsideClick: React.PropTypes.func.isRequired
 };
 
 export default OutsideClickWrapper;

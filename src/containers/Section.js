@@ -21,8 +21,8 @@ const mapDispatchToProps = dispatch => ({
 const Paragraph = (id, selected, changeSelection, text) => (
     <p key={id}
        onClick={changeSelection}>
-        {selected ? <span id="selection"/> : null}
-        {selected ? <NodeMenu /> : null}
+        {selected && <span id="selection"/>}
+        {selected && <NodeMenu />}
         {text}
     </p>
 );
@@ -36,8 +36,8 @@ const Section = ({section, editor, selection, changeSelection}) => {
     }
     return (
         <section onClick={changeSelection(section.id, null)}>
-            {selected ? <span id="selection" /> : null}
-            {selected ? <NodeMenu /> : null}
+            {selected && <span id="selection" />}
+            {selected && <NodeMenu />}
             <Header id={section.id}/>
             {pars}
             {section.children.map(id => <SectionContainer key={id} id={id}/>)}

@@ -23,7 +23,7 @@ const Menu = ({startEditing, appendEditor, startRenaming, onSection, deleteSelec
     <span id="node-menu">
         <a href="" onClick={appendEditor}>Append</a>
         <a href="" onClick={startEditing}>Edit</a>
-        {onSection ? <a href="" onClick={startRenaming}>Rename</a> : null}
+        {onSection && <a href="" onClick={startRenaming}>Rename</a>}
         <a href="" onClick={deleteSelection}>Delete</a>
     </span>;
 

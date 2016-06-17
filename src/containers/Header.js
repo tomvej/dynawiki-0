@@ -17,14 +17,13 @@ const mapStateToProps = (state, ownProps) => ({
     editing: state.editor !== null && state.editor.section === ownProps.id && state.editor.index === null
 });
 
-const Header = ({heading, selected, editing, rename}) => (editing ?
-        <header>
-            <textarea rows="1" defaultValue={heading} onKeyDown={rename} autoFocus/>
-        </header>
-        :
-        <header>
-            <h1>{heading}</h1>
-        </header>
+const Header = ({heading, selected, editing, rename}) => (
+    <header>
+        { editing
+            ? <textarea rows="1" defaultValue={heading} onKeyDown={rename} autoFocus/>
+            : <h1>{heading}</h1>
+        }
+    </header>
 );
 
 export default connect(

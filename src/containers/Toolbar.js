@@ -20,8 +20,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Toolbar = ({canUndo, canRedo, undo, redo, nothing}) => <div id="toolbar">
-    {canUndo ? <a href="" id="undo" onClick={undo}>Undo</a> : null}
-    {canRedo ? <a href="" id="redo" onClick={redo}>Redo</a> : null}
+    {canUndo && <a href="" id="undo" onClick={undo}>Undo</a>}
+    {canRedo && <a href="" id="redo" onClick={redo}>Redo</a>}
 </div>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);

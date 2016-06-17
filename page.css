@@ -86,7 +86,7 @@ section, p {
     color: black;
 }
 
-#node-menu a:hover {
+#node-menu a:hover, #node-menu a.selected {
     background: navy;
     color: #FFFFFF;
 }

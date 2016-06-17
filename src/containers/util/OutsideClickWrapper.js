@@ -2,8 +2,8 @@ import React from 'react'
 
 
 class OutsideClickWrapper extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.insideClick = false;
         this.windowClick = this.windowClick.bind(this);
         this.mouseDown = this.mouseDown.bind(this);

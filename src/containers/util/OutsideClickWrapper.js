@@ -28,9 +28,9 @@ class OutsideClickWrapper extends React.Component {
     }
 
     render() {
-        return <div onMouseDown={this.mouseDown} onMouseUp={this.mouseUp}>
+        return <span onMouseDown={this.mouseDown} onMouseUp={this.mouseUp}>
             {this.props.children}
-        </div>
+        </span>
     }
 }
 

@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { connect } from 'react-redux'
 import { startEditing, appendEditor, startRenaming, deleteSelection, popup } from '../actions'
+import OutsideClickWrapper from './util/OutsideClickWrapper'
 
 const mapStateToProps = state => ({
     onSection: state.selection.index === null
@@ -21,24 +23,28 @@ const mapDispatchToProps = dispatch => ({
     hide: () => {dispatch(popup(false));}
 });
 
-const Menu = React.createClass({
-    componentDidMount() {
-        window.addEventListener('mousedown', this.props.hide);
-    },
-    componentWillUnmount() {
-        window.removeEventListener('mousedown', this.props.hide);
-    },
+class Menu extends React.Component {
     render() {
-        return <span id="node-menu">
-            <a href="" onClick={this.props.appendEditor}>Append</a>
-            <a href="" onClick={this.props.startEditing}>Edit</a>
-            {this.props.onSection && <a href="" onClick={this.props.startRenaming}>Rename</a>}
-            <a href="" onClick={this.props.deleteSelection}>Delete</a>
-        </span>;
+        const createAction = ({name, action}, index) => <a href="" onMouseDown={action} key={index}>{name}</a>;
+        return <OutsideClickWrapper onOutsideClck={this.props.hide}>
+            <span id="node-menu">
+                {this.props.actions.map(createAction)}
+            </span>
+        </OutsideClickWrapper>;
     }
-});
+}
+
+const ActionProvider = ({onSection, startEditing, appendEditor, startRenaming, deleteSelection, hide}) => {
+    const action = (name, action) => ({name, action});
+    const actions = [];
+    actions.push(action('Append', appendEditor));
+    actions.push(action('Edit', startEditing));
+    onSection && actions.push(action('Rename', startRenaming));
+    actions.push(action('Delete', deleteSelection));
+    return <Menu actions={actions} hide={hide}/>;
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Menu)
+)(ActionProvider);

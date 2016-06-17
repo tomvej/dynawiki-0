@@ -57,3 +57,10 @@ export const redo = () => ({
 export const startSelection = () => ({
     type: Actions.START_SELECTION
 });
+
+export const popup = visible => ({
+    type: Actions.POPUP,
+    payload: {
+        visible
+    }
+});

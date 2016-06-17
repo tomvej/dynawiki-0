@@ -61,7 +61,8 @@ class Menu extends React.Component {
 
     createAction({name, action}, index) {
         const className = this.state.index === index ? 'selected' : '';
-        return <a href="" onMouseDown={action} key={index} className={className}>{name}</a>
+        const setIndex = event => this.setState({index});
+        return <a href="" onClick={action} onMouseMove={setIndex} key={index} className={className}>{name}</a>
     }
     render() {
         return <OutsideClickWrapper onOutsideClick={this.props.hide}>

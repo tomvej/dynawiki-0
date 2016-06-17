@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import OutsideClickWrapper from './util/OutsideClickWrapper'
 import { clearSelection, startSelection } from '../actions'
 import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 
@@ -29,36 +30,18 @@ const mapDispatchToProps = dispatch => ({
     onKeyPress: handleKeyPress(dispatch)
 });
 
-const Page = React.createClass({
-    componentWillMount() {
-        this.insideClick = false;
-    },
+class Page extends React.Component {
     componentDidMount() {
-        window.addEventListener('mousedown', this.onDocumentClick, false);
         window.addEventListener('keypress', this.props.onKeyPress, false);
-    },
-    componentWillUnmount() {
-        window.removeEventListener('mousedown', this.onDocumentClick, false);
-        window.removeEventListener('keypress', this.props.onKeyPress, false);
-    },
-
-    onDocumentClick() {
-        if(!this.insideClick) {
-            this.props.clearSelection();
-        }
-    },
-    onMouseDown() {
-        this.insideClick = true;
-    },
-    onMouseUp() {
-        this.insideClick = false;
-    },
-
-    render() {
-        return <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
-            {this.props.children}
-        </div>;
     }
-});
+    componentWillUnmount() {
+        window.removeEventListener('keypress', this.props.onKeyPress, false);
+    }
+    render() {
+        return <OutsideClickWrapper onOutsideClick={this.props.clearSelection}>
+            {this.props.children}
+        </OutsideClickWrapper>;
+    }
+}
 
 export default connect(state => ({}), mapDispatchToProps)(Page);

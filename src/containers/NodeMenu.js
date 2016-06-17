@@ -35,12 +35,12 @@ class Menu extends React.Component {
 }
 
 const ActionProvider = ({onSection, startEditing, appendEditor, startRenaming, deleteSelection, hide}) => {
-    const action = (name, action) => ({name, action});
-    const actions = [];
-    actions.push(action('Append', appendEditor));
-    actions.push(action('Edit', startEditing));
-    onSection && actions.push(action('Rename', startRenaming));
-    actions.push(action('Delete', deleteSelection));
+    const actions = [
+        ['Append', appendEditor],
+        ['Edit', startEditing],
+        onSection && ['Rename', startRenaming],
+        ['Delete', deleteSelection]
+    ].filter(a => !!a).map(([name, action]) => ({name, action}));
     return <Menu actions={actions} hide={hide}/>;
 };
 

@@ -1,1 +1,1 @@
-export default (state, payload) => (state.editor === null ? {selection: {$set: payload}} : null);
+export default (state, payload) => (state.editor === null && !state.popup ? {selection: {$set: payload}} : null);

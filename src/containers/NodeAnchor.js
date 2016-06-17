@@ -1,11 +1,23 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import NodeMenu from './NodeMenu'
 
-const Anchor = () =>
+
+const mapStateToProps = state => ({
+    visible: !!state.popup
+});
+
+const mapDispatchToProps = state => ({
+    show: event => {
+        event.preventDefault();
+    }
+});
+
+const Anchor = ({visible, show}) =>
     <span id="node-anchor">
-        <a href="">v</a>
-        <NodeMenu />
+        <a href="" onClick={show}>v</a>
+        {visible ? <NodeMenu /> : null}
     </span>;
 
-export default Anchor;
+export default connect(mapStateToProps, mapDispatchToProps)(Anchor);

@@ -65,6 +65,12 @@ section, p {
     border-color: navy;
 }
 
+#node-anchor > a.selected {
+    border-color: black;
+    background-color: navy;
+    color: white;
+}
+
 #node-menu {
     display: block;
     border: 1px solid black;

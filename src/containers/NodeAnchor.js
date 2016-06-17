@@ -19,8 +19,8 @@ const mapDispatchToProps = dispatch => ({
 
 const Anchor = ({visible, show}) =>
     <span id="node-anchor">
-        <a href="" onClick={show}>v</a>
-        {visible ? <NodeMenu /> : null}
+        <a href="" onClick={show} className={visible ? 'selected' : ''}>v</a>
+        {visible && <NodeMenu />}
     </span>;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Anchor);

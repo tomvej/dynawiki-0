@@ -5,7 +5,8 @@ import { startEditing, appendEditor, startRenaming, deleteSelection, popup } fro
 import Menu from '../components/PopupMenu'
 
 const mapStateToProps = state => ({
-    onSection: state.selection.index === null
+    onSection: state.selection.index === null,
+    position: {x: state.popup.x, y: state.popup.y}
 });
 
 const catchAction = (dispatch, generator) => event => {
@@ -24,14 +25,14 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-const ActionProvider = ({onSection, startEditing, appendEditor, startRenaming, deleteSelection, hide}) => {
+const ActionProvider = ({onSection, position, startEditing, appendEditor, startRenaming, deleteSelection, hide}) => {
     const actions = [
         ['Append', appendEditor],
         ['Edit', startEditing],
         onSection && ['Rename', startRenaming],
         ['Delete', deleteSelection]
     ].filter(a => !!a).map(([name, action]) => ({name, action}));
-    return <Menu actions={actions} hide={hide}/>;
+    return <Menu actions={actions} hide={hide} position={position}/>;
 };
 
 export default connect(

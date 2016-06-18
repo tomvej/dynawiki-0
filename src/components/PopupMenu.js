@@ -45,7 +45,7 @@ class Menu extends React.Component {
     }
     render() {
         return <OutsideClickWrapper onOutsideClick={this.props.hide}>
-            <span id="node-menu">
+            <span id="node-menu" style={{left: this.props.position.x, top: this.props.position.y}}>
                 {this.props.actions.map(this.createAction)}
             </span>
         </OutsideClickWrapper>;

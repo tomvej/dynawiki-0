@@ -33,7 +33,6 @@ const mapDispatchToProps = dispatch => ({
         if (event.buttons === 0) {
             dispatch(popup(true));
         }
-
     }
 });
 

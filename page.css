@@ -55,6 +55,8 @@ section, p {
 
 #node-anchor > a {
     background-color: #FAFAFA;
+    font-family: sans-serif;
+    color: #AAAAAA;
 }
 
  #toolbar a:hover {
@@ -63,6 +65,7 @@ section, p {
 
 #node-anchor > a:hover {
     border-color: navy;
+    color: navy;
 }
 
 #node-anchor > a.selected {

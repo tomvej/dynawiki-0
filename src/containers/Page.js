@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { clearSelection, startSelection } from '../actions'
+import OutsideClickWrapper from '../components/OutsideClickWrapper'
+import NodeMenu from './NodeMenu'
+import { clearSelection, startSelection, popup } from '../actions'
 import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 
 const handleKeyPress = dispatch => event => {
@@ -24,41 +26,36 @@ const handleKeyPress = dispatch => event => {
     }
 };
 
-const mapDispatchToProps = dispatch => ({
-    clearSelection: () => dispatch(clearSelection()),
-    onKeyPress: handleKeyPress(dispatch)
+const mapStateToProps = state => ({
+    popup: !!(state.popup && state.popup.x && state.popup.y)
 });
 
-const Page = React.createClass({
-    componentWillMount() {
-        this.insideClick = false;
-    },
-    componentDidMount() {
-        window.addEventListener('mousedown', this.onDocumentClick, false);
-        window.addEventListener('keypress', this.props.onKeyPress, false);
-    },
-    componentWillUnmount() {
-        window.removeEventListener('mousedown', this.onDocumentClick, false);
-        window.removeEventListener('keypress', this.props.onKeyPress, false);
-    },
-
-    onDocumentClick() {
-        if(!this.insideClick) {
-            this.props.clearSelection();
+const mapDispatchToProps = dispatch => ({
+    clearSelection: () => dispatch(clearSelection()),
+    onKeyPress: handleKeyPress(dispatch),
+    contextMenu: event => {
+        event.preventDefault();
+        if (event.buttons === 0) {
+            dispatch(popup());
         }
-    },
-    onMouseDown() {
-        this.insideClick = true;
-    },
-    onMouseUp() {
-        this.insideClick = false;
-    },
-
-    render() {
-        return <div onMouseDown={this.onMouseDown} onMouseUp={this.onMouseUp}>
-            {this.props.children}
-        </div>;
     }
 });
 
-export default connect(state => ({}), mapDispatchToProps)(Page);
+class Page extends React.Component {
+    componentDidMount() {
+        window.addEventListener('keypress', this.props.onKeyPress, false);
+        window.addEventListener('contextmenu', this.props.contextMenu);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('keypress', this.props.onKeyPress, false);
+        window.removeEventListener('contextnenu', this.props.contextMenu);
+    }
+    render() {
+        return <OutsideClickWrapper onOutsideClick={this.props.clearSelection}>
+            {this.props.children}
+            {this.props.popup && <NodeMenu />}
+        </OutsideClickWrapper>;
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

@@ -75,7 +75,7 @@ const moveDown = state => {
 };
 
 export default (state, payload) => {
-    if (state.selection === null) {
+    if (state.selection === null || state.popup) {
         return null;
     }
 

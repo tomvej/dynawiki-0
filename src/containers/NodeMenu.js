@@ -1,14 +1,18 @@
 import React from 'react'
+
 import { connect } from 'react-redux'
-import { startEditing, appendEditor, startRenaming, deleteSelection } from '../actions'
+import { startEditing, appendEditor, startRenaming, deleteSelection, popup } from '../actions'
+import Menu from '../components/PopupMenu'
 
 const mapStateToProps = state => ({
-    onSection: state.selection.index === null
+    onSection: state.selection.index === null,
+    position: {x: state.popup.x, y: state.popup.y}
 });
 
 const catchAction = (dispatch, generator) => event => {
     event.stopPropagation();
     event.preventDefault();
+    dispatch(popup(false));
     dispatch(generator(event));
 };
 
@@ -16,18 +20,21 @@ const mapDispatchToProps = dispatch => ({
     startEditing: catchAction(dispatch, startEditing),
     appendEditor: catchAction(dispatch, appendEditor),
     startRenaming: catchAction(dispatch, startRenaming),
-    deleteSelection: catchAction(dispatch, deleteSelection)
+    deleteSelection: catchAction(dispatch, deleteSelection),
+    hide: () => {dispatch(popup(false));}
 });
 
-const Menu = ({startEditing, appendEditor, startRenaming, onSection, deleteSelection}) =>
-    <span id="node-menu">
-        <a href="" onClick={appendEditor}>Append</a>
-        <a href="" onClick={startEditing}>Edit</a>
-        {onSection && <a href="" onClick={startRenaming}>Rename</a>}
-        <a href="" onClick={deleteSelection}>Delete</a>
-    </span>;
+const ActionProvider = ({onSection, position, startEditing, appendEditor, startRenaming, deleteSelection, hide}) => {
+    const actions = [
+        ['Append', appendEditor],
+        ['Edit', startEditing],
+        onSection && ['Rename', startRenaming],
+        ['Delete', deleteSelection]
+    ].filter(a => !!a).map(([name, action]) => ({name, action}));
+    return <Menu actions={actions} hide={hide} position={position}/>;
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Menu)
+)(ActionProvider);

@@ -11,6 +11,7 @@ import rename from './rename'
 import deleteSelection from './deleteSelection'
 import startSelection from './startSelection'
 import moveSelection from './moveSelection'
+import popup from './popup'
 
 const reducers = {
     [Actions.CLOSE_EDITOR] : closeEditor,
@@ -23,7 +24,8 @@ const reducers = {
     [Actions.RENAME] : rename,
     [Actions.DELETE_SELECTION] : deleteSelection,
     [Actions.START_SELECTION] : startSelection,
-    [Actions.MOVE_SELECTION] : moveSelection
+    [Actions.MOVE_SELECTION] : moveSelection,
+    [Actions.POPUP] : popup
 };
 
 /** Set of actions which commit to undo/redo stack. */

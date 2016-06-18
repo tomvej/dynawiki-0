@@ -37,14 +37,14 @@ section, p {
     border-radius: 5px;
 }
 
-#node-menu {
+#node-anchor {
     position: absolute;
     right: -5px;
     top: 5px;
     z-index: 2;
 }
 
-#node-menu a, #toolbar a{
+#node-anchor > a, #toolbar a{
     padding: 2px;
     margin: 2px;
     border: 1px solid #AAAAAA;
@@ -53,16 +53,45 @@ section, p {
     font-weight: bold;
 }
 
-#node-menu a {
+#node-anchor > a {
     background-color: #FAFAFA;
+    font-family: sans-serif;
+    color: #AAAAAA;
 }
 
  #toolbar a:hover {
     border-color: black;
 }
 
-#node-menu a:hover {
+#node-anchor > a:hover {
     border-color: navy;
+    color: navy;
+}
+
+#node-anchor > a.selected {
+    border-color: black;
+    background-color: navy;
+    color: white;
+}
+
+#node-menu {
+    display: block;
+    border: 1px solid black;
+    background: #FFFFFF;
+    position: absolute;
+    z-index: 3;
+}
+
+#node-menu a {
+    display: block;
+    text-decoration: none;
+    padding: 2px;
+    color: black;
+}
+
+#node-menu a.selected {
+    background: navy;
+    color: #FFFFFF;
 }
 
 h1 {

@@ -6,7 +6,7 @@ import { popup } from '../actions'
 
 
 const mapStateToProps = state => ({
-    visible: !!state.popup
+    visible: !!(state.popup && !state.popup.x && !state.popup.y)
 });
 
 const mapDispatchToProps = dispatch => ({

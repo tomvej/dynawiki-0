@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import OutsideClickWrapper from '../components/OutsideClickWrapper'
+import NodeMenu from './NodeMenu'
 import { clearSelection, startSelection, popup } from '../actions'
 import { moveSelectionDown, moveSelectionUp, moveSelectionToParent } from '../actions/moveSelection'
 
@@ -24,6 +25,10 @@ const handleKeyPress = dispatch => event => {
             break;
     }
 };
+
+const mapStateToProps = state => ({
+    popup: !!(state.popup && state.popup.x && state.popup.y)
+});
 
 const mapDispatchToProps = dispatch => ({
     clearSelection: () => dispatch(clearSelection()),
@@ -48,8 +53,9 @@ class Page extends React.Component {
     render() {
         return <OutsideClickWrapper onOutsideClick={this.props.clearSelection}>
             {this.props.children}
+            {this.props.popup && <NodeMenu />}
         </OutsideClickWrapper>;
     }
 }
 
-export default connect(state => ({}), mapDispatchToProps)(Page);
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

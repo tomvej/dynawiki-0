@@ -2,6 +2,7 @@ export default (state, payload) => {
     if (state.selection === null) {
         return null;
     }
-    
-    return ({popup: {$set: (payload.visible ? {} : null)}}
-)}
+
+    const popup = payload.visible ? {x: payload.x, y: payload.y} : null;
+    return {popup: {$set: popup}};
+}

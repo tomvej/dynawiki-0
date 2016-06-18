@@ -58,9 +58,7 @@ export const startSelection = () => ({
     type: Actions.START_SELECTION
 });
 
-export const popup = visible => ({
+export const popup = (visible, x, y) => ({
     type: Actions.POPUP,
-    payload: {
-        visible
-    }
+    payload: { visible, x, y }
 });

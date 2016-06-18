@@ -20,9 +20,9 @@ const mapDispatchToProps = dispatch => ({
         if (event.buttons !== 0) {
             dispatch(changeSelection(section, index));
             dispatch(popup(true, event.pageX, event.pageY));
+            event.stopPropagation();
+            event.preventDefault();
         }
-        event.stopPropagation();
-        event.preventDefault();
     }
 });
 

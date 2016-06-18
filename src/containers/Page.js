@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
     contextMenu: event => {
         event.preventDefault();
         if (event.buttons === 0) {
-            dispatch(popup(true));
+            dispatch(popup());
         }
     }
 });

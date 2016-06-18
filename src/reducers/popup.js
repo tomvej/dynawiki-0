@@ -3,6 +3,7 @@ export default (state, payload) => {
         return null;
     }
 
-    const popup = payload.visible ? {x: payload.x, y: payload.y} : null;
+    const visible = payload.visible !== undefined ? payload.visible : !state.popup;
+    const popup = visible ? {x: payload.x, y: payload.y} : null;
     return {popup: {$set: popup}};
 }

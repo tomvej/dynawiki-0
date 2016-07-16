@@ -10,14 +10,13 @@ import wikiApp from './reducers'
 import Page from './containers/Page'
 import Section from './containers/Section'
 import Toolbar from './containers/Toolbar'
-import freeze, { deepFreeze } from './middleware/freeze'
+import { deepFreeze } from './middleware/freeze'
 
-import logger from './middleware/logger'
-import validator from './middleware/validator'
+import middleware from './middleware'
 
 deepFreeze(initial);
 render(
-    <Provider store={createStore(wikiApp, initial, applyMiddleware(logger, validator, freeze))}>
+    <Provider store={createStore(wikiApp, initial, middleware)}>
         <Page>
             <Toolbar />
             <Section id={0} />

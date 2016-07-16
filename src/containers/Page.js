@@ -43,11 +43,11 @@ const mapDispatchToProps = dispatch => ({
 
 class Page extends React.Component {
     componentDidMount() {
-        window.addEventListener('keypress', this.props.onKeyPress, false);
+        window.addEventListener('keydown', this.props.onKeyPress, false);
         window.addEventListener('contextmenu', this.props.contextMenu);
     }
     componentWillUnmount() {
-        window.removeEventListener('keypress', this.props.onKeyPress, false);
+        window.removeEventListener('keydown', this.props.onKeyPress, false);
         window.removeEventListener('contextnenu', this.props.contextMenu);
     }
     render() {

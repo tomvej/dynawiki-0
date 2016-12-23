@@ -4,12 +4,12 @@
   "description": "Dynamic Personal Wiki",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomvej/dynawiki.git"
+    "url": "https://github.com/tomvej/dynawiki-0.git"
   },
   "author": "tom.vejpustek@centrum.cz",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/tomvej/dynawiki/issues"
+    "url": "https://github.com/tomvej/dynawiki-0/issues"
   },
   "dependencies": {
     "react": "^0.14.7",
